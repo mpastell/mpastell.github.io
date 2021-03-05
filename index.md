@@ -23,5 +23,7 @@ I'm always interested in new collaborations and you are very welcome to contact 
 - [CowBhave: a basic low-cost open-source automated monitoring system for discrimination of dairy cow behavioural activities](https://www.luke.fi/en/projektit/cowbhave/)
 - [Disruptive food production technologies contributing to reach the Finnish carbon neutrality goals](https://www.luke.fi/en/projektit/food-without-fields/)
 - INTELLIRAS: Intelligent farming and health control in landbased recirculating aquaculture systems
+- [GRAZE-WEL: Can grazing regime and farmers’ perceptions of pasture management affect the welfare of dairy cattle and potential for carbon sequestration?](https://www.luke.fi/en/projektit/graze-wel/)
 - [Intact tails: a measure of pig welfare](https://www.luke.fi/en/projektit/ehja/)
 - [Automatic monitoring of the health of neonates and sows during the peri-partum period](https://www.luke.fi/en/projektit/autopig/)
+- [BREEDWell: Automatic behavioural phenotyping and breeding for improved dairy cow welfare](https://www.luke.fi/en/projektit/breedwell/)
