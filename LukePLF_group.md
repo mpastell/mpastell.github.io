@@ -7,7 +7,7 @@ order : 2
 
 Our Precision Livestock Farming research at Luke is done by a team researchers with diverse background and as collaboration of several organisationals groups. Our team includes experts from engineering, ethology, computer science, animal and veterinary science, animal genetics and economics. We work together in joint projects and meet regularly to exchange ideas and information. 
 
-**Members:**
+#### Members:
 
 - Associate professor, Dr. [Matti Pastell](https://mpastell.com). Agricultural Engineering, measuring, modeling and control of dynamic biological systems, and agricultural automation
 - Research professor, Dr. [Jarkko Niemi](https://www.luke.fi/en/henkilosto/jarkko-niemi/). Economics of animal health, welfare and production
@@ -21,3 +21,11 @@ Our Precision Livestock Farming research at Luke is done by a team researchers w
 
 
 
+#### Visitors:
+
+We have hosted several visiting scientists over the years and hopefully can do so also in the future. If you'd like to visit us be in contact with Matti. Past visitors:
+
+- Prof. [Ben Aernouts](https://www.kuleuven.be/wieiswie/en/person/00072735), KU Leuven 
+- Dr. [Jarissa Maselyne](https://pureportal.ilvo.be/en/persons/jarissa-maselyne), ILVO
+- Dr. Philippo Bonora, University of Bologna
+- Dr. [Emma Ternman](https://www.slu.se/en/ew-cv/emma-ternman/), SLU
