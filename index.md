@@ -4,6 +4,7 @@
 title: About
 layout: page
 permalink: /
+order : 1
 ---
 
 <img src="/assets/mattipastell.jpg" width="20%" style="float: left; display: inline; padding: 5px;  border-radius: 8px;">
