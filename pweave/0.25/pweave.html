@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using pweave module &mdash; Pweave v0.25 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Pweave v0.25 documentation" href="index.html"/>
+        <link rel="next" title="Publishing scipts" href="pypublish.html"/>
+        <link rel="prev" title="Output Formats" href="formats.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Pweave - Scientific Reports Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Pweave Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chunks.html">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Output Formats</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using pweave module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simple-weaving-and-tangling">Simple weaving and tangling:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pweave-function-reference">Pweave function reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#more-options-with-pweb-class">More options with Pweb Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pweb-class">Pweb Class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Pweave example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="editors.html">Editor support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="docs.html">Pweave documentation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="docs.html">Docs</a> &raquo;</li>
+      
+    <li>Using pweave module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/pweave.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-pweave-module">
+<h1>Using pweave module<a class="headerlink" href="#using-pweave-module" title="Permalink to this headline">¶</a></h1>
+<p>Pweave can also be used as module from the Python interpreter. This
+has some advantages over just using the scripts. First the execution
+of the code will be faster because all modules all already
+imported. Second you can work interactively with the data after the
+code from the document has been run. Further it is possible to fully
+customize the document execution and formatting using the <a class="reference internal" href="#pweave.Pweb" title="pweave.Pweb"><code class="xref py py-class docutils literal"><span class="pre">Pweb</span></code></a> class.</p>
+<p>pweave module contains two functions <a class="reference internal" href="#pweave.weave" title="pweave.weave"><code class="xref py py-func docutils literal"><span class="pre">weave()</span></code></a> and
+<a class="reference internal" href="#pweave.tangle" title="pweave.tangle"><code class="xref py py-func docutils literal"><span class="pre">tangle()</span></code></a> that offer the same functionality as the command
+line scripts.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This document was also created with Pweave, have a look at the
+<a class="reference external" href="_static/pweave.rstw">source</a>.</p>
+</div>
+<div class="section" id="simple-weaving-and-tangling">
+<h2>Simple weaving and tangling:<a class="headerlink" href="#simple-weaving-and-tangling" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s and example of simple weaving and tangling using example
+document <a class="reference external" href="_static/ma.Pnw">ma.Pnw</a>. Notice that pweave prints out the
+progress so in case of an error you can tell in which chunk it
+occurred. Also in case of an error returns already evaluated results
+from the documents namespace <code class="xref py py-attr docutils literal"><span class="pre">PwebProcessorGlobals.globals</span></code> to global namespace.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pweave</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Weave a pandoc document with default options</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pweave</span><span class="o">.</span><span class="n">weave</span><span class="p">(</span><span class="s1">&#39;ma.mdw&#39;</span><span class="p">,</span> <span class="n">doctype</span> <span class="o">=</span> <span class="s2">&quot;pandoc&quot;</span><span class="p">)</span>
+<span class="go">Processing chunk 1 named None from line 22</span>
+<span class="go">Processing chunk 2 named None from line 31</span>
+<span class="go">Processing chunk 3 named None from line 42</span>
+<span class="go">Pweaved ma.mdw to ma.md</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Extract the code</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pweave</span><span class="o">.</span><span class="n">tangle</span><span class="p">(</span><span class="s1">&#39;ma.mdw&#39;</span><span class="p">)</span>
+<span class="go">Tangled code from ma.mdw to ma.py</span>
+</pre></div>
+</div>
+<div class="section" id="pweave-function-reference">
+<h3>Pweave function reference<a class="headerlink" href="#pweave-function-reference" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="pweave.weave">
+<code class="descclassname">pweave.</code><code class="descname">weave</code><span class="sig-paren">(</span><em>file</em>, <em>doctype=None</em>, <em>informat=None</em>, <em>shell=u'python'</em>, <em>shell_path=None</em>, <em>plot=True</em>, <em>docmode=False</em>, <em>cache=False</em>, <em>figdir=u'figures'</em>, <em>cachedir=u'cache'</em>, <em>figformat=None</em>, <em>returnglobals=True</em>, <em>listformats=False</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave.html#weave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.weave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes a Pweave document and writes output to a file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> input file</li>
+<li><strong>doctype</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> output document format: call with listformats true to get list of supported formats.</li>
+<li><strong>informat</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> input format: &#8220;noweb&#8221;, &#8220;markdown&#8221;, &#8220;notebook&#8221; or &#8220;script&#8221;</li>
+<li><strong>shell</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> shell used to run code: &#8220;python&#8221;, &#8220;ipython&#8221;, &#8220;matlab&#8221; or &#8220;octave&#8221;</li>
+<li><strong>shell_path</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> Set the path of shell to run code, only affects &#8220;epython&#8221; shell</li>
+<li><strong>plot</strong> &#8211; <code class="docutils literal"><span class="pre">bool</span></code> use matplotlib</li>
+<li><strong>docmode</strong> &#8211; <code class="docutils literal"><span class="pre">bool</span></code> use documentation mode, chunk code and results will be loaded from cache and inline code will be hidden</li>
+<li><strong>cache</strong> &#8211; <code class="docutils literal"><span class="pre">bool</span></code> Cache results to disk for documentation mode</li>
+<li><strong>figdir</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> directory path for figures</li>
+<li><strong>cachedir</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> directory path for cached results used in documentation mode</li>
+<li><strong>figformat</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> format for saved figures (e.g. &#8216;.png&#8217;), if None then the default for each format is used</li>
+<li><strong>returnglobals</strong> &#8211; <code class="docutils literal"><span class="pre">bool</span></code> if True the namespace of the executed document is added to callers global dictionary. Then it is possible to work interactively with the data while writing the document. IronPython needs to be started with -X:Frames or this won&#8217;t work.</li>
+<li><strong>listformats</strong> &#8211; <code class="docutils literal"><span class="pre">bool</span></code> List available formats and exit</li>
+<li><strong>output</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> output file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pweave.tangle">
+<code class="descclassname">pweave.</code><code class="descname">tangle</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave.html#tangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.tangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tangles a noweb file i.e. extracts code from code chunks to a .py file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> the pweave document containing the code</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pweave.publish">
+<code class="descclassname">pweave.</code><code class="descname">publish</code><span class="sig-paren">(</span><em>file</em>, <em>doc_format=u'html'</em>, <em>theme=u'skeleton'</em>, <em>latex_engine=u'pdflatex'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave.html#publish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publish python script and results to html or pdf, expects that doc
+chunks are  written in markdown.</p>
+<p>&#8221;:param file: <code class="docutils literal"><span class="pre">string</span></code> input file&#8221;
+&#8221;:param format: <code class="docutils literal"><span class="pre">string</span></code> output format &#8220;html&#8221; of &#8220;pdf&#8221;, pdf output
+requires pandoc and pdflatex in your path.
+:param: <code class="docutils literal"><span class="pre">string</span></code> latex_engine the command for running latex. Defaults to &#8220;pdflatex&#8221;.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pweave.convert">
+<code class="descclassname">pweave.</code><code class="descname">convert</code><span class="sig-paren">(</span><em>file</em>, <em>informat=u'noweb'</em>, <em>outformat=u'script'</em>, <em>pandoc_args=None</em>, <em>listformats=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave.html#convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert input file from script to noweb or vice versa</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> input file</li>
+<li><strong>informat</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> input format noweb, script or notebook</li>
+<li><strong>outformat</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> input format noweb or script</li>
+<li><strong>pandoc_args</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> arguments passed to pandoc to convert doc chunks.
+e.g. to convert from markdown to latex use: <cite>&#8220;-f markdown -t latex&#8221;</cite> .
+Note that each doc chunk is converted separately so you can&#8217;t use pandocs -s option.</li>
+<li><strong>listformats</strong> &#8211; <code class="docutils literal"><span class="pre">bool</span></code> List available formats and exit</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pweave.spin">
+<code class="descclassname">pweave.</code><code class="descname">spin</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave.html#spin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.spin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert input file from script format to noweb format, similar to Knitr&#8217;s spin.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="more-options-with-pweb-class">
+<h2>More options with Pweb Class<a class="headerlink" href="#more-options-with-pweb-class" title="Permalink to this headline">¶</a></h2>
+<p>Weaving, tangling and pweave options are implemented using
+<a class="reference internal" href="#pweave.Pweb" title="pweave.Pweb"><code class="xref py py-class docutils literal"><span class="pre">Pweb</span></code></a> class. There is an <a class="reference external" href="customizing.html">example</a>
+about customizations and the class reference is below.</p>
+<div class="section" id="pweb-class">
+<h3>Pweb Class<a class="headerlink" href="#pweb-class" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="pweave.Pweb">
+<em class="property">class </em><code class="descclassname">pweave.</code><code class="descname">Pweb</code><span class="sig-paren">(</span><em>file=None</em>, <em>format=u'tex'</em>, <em>shell=u'python'</em>, <em>output=None</em>, <em>figdir=u'figures'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes a complete document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> name of the input document.</li>
+<li><strong>format</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> output format from supported formats. See: <a class="reference external" href="http://mpastell.com/pweave/formats.html">http://mpastell.com/pweave/formats.html</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="pweave.Pweb.cachedir">
+<code class="descname">cachedir</code><em class="property"> = u'cache'</em><a class="headerlink" href="#pweave.Pweb.cachedir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pweave cache directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.detect_format">
+<code class="descname">detect_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.detect_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.detect_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect output format based on file extension</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.detect_reader">
+<code class="descname">detect_reader</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.detect_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.detect_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect input format based on file extension</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pweave.Pweb.documentationmode">
+<code class="descname">documentationmode</code><em class="property"> = None</em><a class="headerlink" href="#pweave.Pweb.documentationmode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use documentation mode?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.format">
+<code class="descname">format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the code for writing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.getformat">
+<code class="descname">getformat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.getformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.getformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current format dictionary. See: <a class="reference external" href="http://mpastell.com/pweave/customizing.html">http://mpastell.com/pweave/customizing.html</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.parse">
+<code class="descname">parse</code><span class="sig-paren">(</span><em>string=None</em>, <em>basename=u'string_input'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse document</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>shell=u'python'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute code in the document</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.setformat">
+<code class="descname">setformat</code><span class="sig-paren">(</span><em>doctype=u'tex'</em>, <em>Formatter=None</em>, <em>theme=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.setformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.setformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set output format for the document</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>doctype</strong> &#8211; <code class="docutils literal"><span class="pre">string</span></code> output format from supported formats. See: <a class="reference external" href="http://mpastell.com/pweave/formats.html">http://mpastell.com/pweave/formats.html</a></li>
+<li><strong>Formatter</strong> &#8211; Formatter class, can be used to specify custom formatters. See: <a class="reference external" href="http://mpastell.com/pweave/subclassing.html">http://mpastell.com/pweave/subclassing.html</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.setreader">
+<code class="descname">setreader</code><span class="sig-paren">(</span><em>Reader=&lt;class 'pweave.readers.PwebReader'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.setreader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.setreader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set class reading for reading documents,
+readers can be used to implement different input markups</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.tangle">
+<code class="descname">tangle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.tangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.tangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tangle the document</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.updateformat">
+<code class="descname">updateformat</code><span class="sig-paren">(</span><em>dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.updateformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.updateformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update existing format, See: <a class="reference external" href="http://mpastell.com/pweave/customizing.html">http://mpastell.com/pweave/customizing.html</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.weave">
+<code class="descname">weave</code><span class="sig-paren">(</span><em>shell=u'python'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.weave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.weave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weave the document, equals -&gt; parse, run, format, write</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pweave.Pweb.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>action=u'Pweaved'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pweave/pweb.html#Pweb.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pweave.Pweb.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write formatted code to file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pypublish.html" class="btn btn-neutral float-right" title="Publishing scipts" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="formats.html" class="btn btn-neutral" title="Output Formats" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Apr 21, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

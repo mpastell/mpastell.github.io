@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pweave.pweb &mdash; Pweave v0.25 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Pweave v0.25 documentation" href="../../index.html"/>
+        <link rel="up" title="pweave" href="../pweave.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Pweave - Scientific Reports Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Pweave Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chunks.html">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../formats.html">Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pweave.html">Using pweave module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Pweave example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../editors.html">Editor support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../docs.html">Pweave documentation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../docs.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../pweave.html">pweave</a> &raquo;</li>
+      
+    <li>pweave.pweb</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pweave.pweb</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">io</span>
+
+<span class="kn">from</span> <span class="nn">.readers</span> <span class="kn">import</span> <span class="n">PwebReader</span><span class="p">,</span> <span class="n">PwebReaders</span>
+<span class="kn">from</span> <span class="nn">.formatters</span> <span class="kn">import</span> <span class="n">PwebFormats</span>
+<span class="kn">from</span> <span class="nn">.processors</span> <span class="kn">import</span> <span class="n">PwebProcessors</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">rcParams</span>
+
+<span class="c1"># Python2 compatibility fix</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="nb">basestring</span> <span class="o">=</span> <span class="nb">str</span>
+
+
+<div class="viewcode-block" id="Pweb"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb">[docs]</a><span class="k">class</span> <span class="nc">Pweb</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Processes a complete document</span>
+
+<span class="sd">    :param file: ``string`` name of the input document.</span>
+<span class="sd">    :param format: ``string`` output format from supported formats. See: http://mpastell.com/pweave/formats.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Shared across class instances</span>
+    <span class="n">chunkformatters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">chunkprocessors</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1">#: Pweave cache directory</span>
+    <span class="n">cachedir</span> <span class="o">=</span> <span class="s1">&#39;cache&#39;</span>
+
+    <span class="n">_mpl_imported</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s2">&quot;tex&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">,</span>
+                 <span class="n">output</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">figdir</span><span class="o">=</span><span class="s1">&#39;figures&#39;</span><span class="p">):</span>
+
+        <span class="c1">#The source document</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="nb">file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sink</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destination</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figdir</span> <span class="o">=</span> <span class="n">figdir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doctype</span> <span class="o">=</span> <span class="n">format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executed</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatted</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isparsed</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isexecuted</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isformatted</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">file_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span> <span class="o">=</span> <span class="n">file_ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+        <span class="k">if</span> <span class="s2">&quot;python&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shell</span><span class="p">:</span>
+            <span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;chunk&quot;</span><span class="p">][</span><span class="s2">&quot;defaultoptions&quot;</span><span class="p">][</span><span class="s2">&quot;engine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">shell</span>
+
+        <span class="c1">#: Use documentation mode?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">documentationmode</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setreader</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doctype</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Pweb.setformat"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.setformat">[docs]</a>    <span class="k">def</span> <span class="nf">setformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doctype</span><span class="o">=</span><span class="s1">&#39;tex&#39;</span><span class="p">,</span> <span class="n">Formatter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">theme</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set output format for the document</span>
+
+<span class="sd">        :param doctype: ``string`` output format from supported formats. See: http://mpastell.com/pweave/formats.html</span>
+<span class="sd">        :param Formatter: Formatter class, can be used to specify custom formatters. See: http://mpastell.com/pweave/subclassing.html</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#Formatters are needed  when the code is executed and formatted</span>
+        <span class="k">if</span> <span class="n">Formatter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="c1">#Get formatter class from available formatters</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">Formatter</span> <span class="o">=</span> <span class="n">PwebFormats</span><span class="o">.</span><span class="n">getFormatter</span><span class="p">(</span><span class="n">doctype</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span> <span class="k">if</span> <span class="n">theme</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">Formatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">theme</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Pweave: Unknown output format&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pweb.setreader"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.setreader">[docs]</a>    <span class="k">def</span> <span class="nf">setreader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Reader</span><span class="o">=</span><span class="n">PwebReader</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set class reading for reading documents,</span>
+<span class="sd">        readers can be used to implement different input markups&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Reader</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Reader</span> <span class="o">=</span> <span class="n">PwebReaders</span><span class="o">.</span><span class="n">getReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Reader</span> <span class="o">=</span> <span class="n">Reader</span></div>
+
+<div class="viewcode-block" id="Pweb.detect_format"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.detect_format">[docs]</a>    <span class="k">def</span> <span class="nf">detect_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Detect output format based on file extension&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span> <span class="o">==</span> <span class="s2">&quot;.pmd&quot;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span> <span class="o">==</span> <span class="s2">&quot;.py&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setformat</span><span class="p">(</span><span class="s2">&quot;markdown&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;md&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setformat</span><span class="p">(</span><span class="s2">&quot;markdown&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;tex&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setformat</span><span class="p">(</span><span class="s2">&quot;texpygments&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;rst&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setformat</span><span class="p">(</span><span class="s2">&quot;rst&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;htm&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setformat</span><span class="p">(</span><span class="s2">&quot;html&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Can&#39;t autodetect output format, defaulting to reStructured text&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setformat</span><span class="p">(</span><span class="s2">&quot;rst&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pweb.detect_reader"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.detect_reader">[docs]</a>    <span class="k">def</span> <span class="nf">detect_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Detect input format based on file extension&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span> <span class="o">==</span> <span class="s2">&quot;.pmd&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setreader</span><span class="p">(</span><span class="s2">&quot;markdown&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_ext</span> <span class="o">==</span> <span class="s2">&quot;.py&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setreader</span><span class="p">(</span><span class="s2">&quot;script&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setreader</span><span class="p">(</span><span class="s2">&quot;noweb&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pweb.getformat"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.getformat">[docs]</a>    <span class="k">def</span> <span class="nf">getformat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get current format dictionary. See: http://mpastell.com/pweave/customizing.html&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">formatdict</span></div>
+
+<div class="viewcode-block" id="Pweb.updateformat"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.updateformat">[docs]</a>    <span class="k">def</span> <span class="nf">updateformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update existing format, See: http://mpastell.com/pweave/customizing.html&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">formatdict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pweb.parse"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">basename</span><span class="o">=</span><span class="s2">&quot;string_input&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse document&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">string</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">basename</span> <span class="c1"># XXX non-trivial implications possible</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getparsed</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isparsed</span> <span class="o">=</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="Pweb.run"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute code in the document&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shell</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="n">Runner</span> <span class="o">=</span> <span class="n">PwebProcessors</span><span class="o">.</span><span class="n">getProcessor</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Runner</span> <span class="o">=</span> <span class="n">shell</span>
+
+        <span class="n">runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parsed</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">documentationmode</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">getformatdict</span><span class="p">(),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">figdir</span><span class="p">,</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">))</span>
+        <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executed</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">getresults</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isexecuted</span> <span class="o">=</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="Pweb.format"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Format the code for writing&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isexecuted</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">setexecuted</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">executed</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">getformatted</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isformatted</span> <span class="o">=</span> <span class="bp">True</span></div>
+
+    <span class="k">def</span> <span class="nf">_determineOutputFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sink</span> <span class="o">=</span> <span class="n">dst</span> <span class="k">if</span> <span class="n">dst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> \
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_basename</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getDstExtension</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_getDstExtension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="o">.</span><span class="n">getformatdict</span><span class="p">()[</span><span class="s1">&#39;extension&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Pweb.write"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Pweaved&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write formatted code to file&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isformatted</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_determineOutputFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_writeToSink</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="s1">&#39;{action} {src} to {dst}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">action</span><span class="p">,</span>
+                                                       <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+                                                       <span class="n">dst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sink</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_writeToSink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sink</span><span class="p">,</span> <span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_basename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getBaseName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getBaseName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;\.+[^\.]+$&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Pweb.weave"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.weave">[docs]</a>    <span class="k">def</span> <span class="nf">weave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Weave the document, equals -&gt; parse, run, format, write&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isparsed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Pweb.tangle"><a class="viewcode-back" href="../../pweave.html#pweave.Pweb.tangle">[docs]</a>    <span class="k">def</span> <span class="nf">tangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tangle the document&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_basename</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parsed</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;code&#39;</span><span class="p">]</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">code</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="s1">&#39;Tangled code from {src} to {dst}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+                                                              <span class="n">dst</span><span class="o">=</span><span class="n">target</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Apr 26, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+
+Pweave links
+============
+
+Here are links to sites using Pweave. If you like to be included send
+me an e-mail.
+
+* Nicky van Foreest: `Python Code <http://nicky.vanforeest.com/pythonCode.html>`_
+* `Python, Pweave and pandoc howto <http://iaingallagher.tumblr.com/post/41359279059/python-pweave-and-pandoc-howto>`_
+* UCL GeogG122 Scientific Computing: `Numerical and Scientific Python and Data Visualisation <http://www2.geog.ucl.ac.uk/~plewis/geogg122/pythonmodel.html>`_

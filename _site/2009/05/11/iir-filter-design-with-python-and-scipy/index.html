@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matti Pastell &raquo; IIR filter design with Python and SciPy</title>
+
+
+    <!-- Skeleton     -->
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/css/base.css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/mpastell.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pandoc.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/bib-publication-list.css" media="screen"/>
+
+
+    <link rel="alternate" type="application/atom+xml" title="mpastell.com Articles Feed - mpastell.com" href="/feed/" />
+    <link rel="alternate" type="application/atom+xml" title="R Articles Feed - mpastell.com" href="/tag/r/feed/" />
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="Matti Pastell" />
+    <meta name="description" content="Matti Pastell's website and blog" />
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6474352-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+
+    <div class ="container">
+      <div class="sixteen columns">
+
+
+	  <div id="header">
+	    <h1><a href="http://mpastell.com"> MPASTELL.COM</a></h1>
+	  </div>
+
+	<div id="navbar">
+            <a href="/">About</a>
+	    <a href="/blog/">Blog</a>
+	    <a href="/publications/">Publications</a>
+	    <a href="/software/">Software</a>
+<!--	    <a href="/teaching/">Teaching</a>	-->
+	    <a href="/guides/">Guides</a>
+	    <a href="/links/">Links</a>
+	</div>
+
+
+
+<img src="/images/lehmat.jpg"
+     alt="Cow header" class="scale-with-grid"/>
+
+<div id="main">
+      <h1>IIR filter design with Python and SciPy</h1>
+      <hr/>
+
+      <p><b>Author:</b> Matti Pastell<br/>
+<b>Tags:</b>
+<a href = "/tag/scipy/">SciPy</a>, <a href = "/tag/python/">Python</a>, <a href = "/tag/dsp/">DSP</a>
+<br/>
+May 11 2009</p>
+
+<p>I have had some trouble in IIR filter design with <a href="http://www.scipy.org">SciPy</a>, e.g. getting the filter phase response and impulse response. After some searching and looking at different examples e.g. <a href="http://www.dspguide.com">here</a> I managed to get what I wanted. So here is a simple example on how to make a filter with Scipy, I hope it helps someone else. The example requires Scipy+Numpy+matplolib. You can also download the entire code: <a href="http://mpastell.com/files/elliptic_bandpass.py">elliptic_bandpass.py</a></p>
+<p>For the desing use <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign">scipy.signal.iirdesign</a> function, the following designs an elliptic bandpass filter with passband from 0.05 to 0.3 times the Nyquist frequency with 60 db stop band and 1 db passband attenuation:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> pylab <span class="im">import</span> <span class="op">*</span>
+<span class="im">import</span> scipy.signal <span class="im">as</span> signal
+b,a <span class="op">=</span> signal.iirdesign(wp <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.3</span>], ws<span class="op">=</span> [<span class="fl">0.02</span>, <span class="fl">0.35</span>], gstop<span class="op">=</span> <span class="dv">60</span>, gpass<span class="op">=</span><span class="dv">1</span>, ftype<span class="op">=</span><span class="st">&#39;ellip&#39;</span>)</code></pre></div>
+<p>SciPy has a ready made function for calculating the frequency response of the filter, but not for phase, impulse or step response. Thats why I made two Matlab style functions, <strong>mfreqz</strong> for calculating and plotting frequency and phase response and <strong>impz </strong>for plotting impulse and step response, the code for the functions is in the end of the post and here is the output:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mfreqz(b, a)</code></pre></div>
+<p><img src="http://mpastell.com/images/freqz.png" title="Frequency and phase response" alt="Frequency and phase response" /><br />
+</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">impz(b, a)</code></pre></div>
+<p><img src="http://mpastell.com/images/impz.png" title="Impulse and step response" alt="Impulse and step response" /><br />
+And here are the functions I used:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> mfreqz(b,a<span class="op">=</span><span class="dv">1</span>):
+    w,h <span class="op">=</span> signal.freqz(b,a)
+    h_dB <span class="op">=</span> <span class="dv">20</span> <span class="op">*</span> log10 (<span class="bu">abs</span>(h))
+    subplot(<span class="dv">211</span>)
+    plot(w<span class="op">/</span><span class="bu">max</span>(w),h_dB)
+    ylim(<span class="op">-</span><span class="dv">150</span>, <span class="dv">5</span>)
+    ylabel(<span class="st">&#39;Magnitude (db)&#39;</span>)
+    xlabel(<span class="vs">r&#39;Normalized Frequency (x$\pi$rad/sample)&#39;</span>)
+    title(<span class="vs">r&#39;Frequency response&#39;</span>)
+    subplot(<span class="dv">212</span>)
+    h_Phase <span class="op">=</span> unwrap(arctan2(imag(h),real(h)))
+    plot(w<span class="op">/</span><span class="bu">max</span>(w),h_Phase)
+    ylabel(<span class="st">&#39;Phase (radians)&#39;</span>)
+    xlabel(<span class="vs">r&#39;Normalized Frequency (x$\pi$rad/sample)&#39;</span>)
+    title(<span class="vs">r&#39;Phase response&#39;</span>)
+    subplots_adjust(hspace<span class="op">=</span><span class="fl">0.5</span>)
+    show()
+
+<span class="kw">def</span> impz(b,a<span class="op">=</span><span class="dv">1</span>):
+    impulse <span class="op">=</span> repeat(<span class="dv">0</span>.,<span class="dv">50</span>)<span class="op">;</span> impulse[<span class="dv">0</span>] <span class="op">=</span><span class="dv">1</span>.
+    x <span class="op">=</span> arange(<span class="dv">0</span>,<span class="dv">50</span>)
+    response <span class="op">=</span> signal.lfilter(b,a,impulse)
+    subplot(<span class="dv">211</span>)
+    stem(x, response)
+    ylabel(<span class="st">&#39;Amplitude&#39;</span>)
+    xlabel(<span class="vs">r&#39;n (samples)&#39;</span>)
+    title(<span class="vs">r&#39;Impulse response&#39;</span>)
+    subplot(<span class="dv">212</span>)
+    step <span class="op">=</span> cumsum(response)
+    stem(x, step)
+    ylabel(<span class="st">&#39;Amplitude&#39;</span>)
+    xlabel(<span class="vs">r&#39;n (samples)&#39;</span>)
+    title(<span class="vs">r&#39;Step response&#39;</span>)
+    subplots_adjust(hspace<span class="op">=</span><span class="fl">0.5</span>)
+    show()</code></pre></div>
+
+
+
+<div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'mpastell'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      <BR class = "clear"/>
+      <div id="footer">
+	<hr/>
+	&copy; Matti Pastell 2011- . Site built using <a href="http://nanoc.stoneship.org/">nanoc</a> and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a></div>
+	</div>
+
+      </div>
+    </div>
+
+  </body>
+  </html>

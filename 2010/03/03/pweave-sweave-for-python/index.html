@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matti Pastell &raquo; Pweave - Sweave for Python</title>
+
+
+    <!-- Skeleton     -->
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/css/base.css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/mpastell.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pandoc.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/bib-publication-list.css" media="screen"/>
+
+
+    <link rel="alternate" type="application/atom+xml" title="mpastell.com Articles Feed - mpastell.com" href="/feed/" />
+    <link rel="alternate" type="application/atom+xml" title="R Articles Feed - mpastell.com" href="/tag/r/feed/" />
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="Matti Pastell" />
+    <meta name="description" content="Matti Pastell's website and blog" />
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6474352-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+
+    <div class ="container">
+      <div class="sixteen columns">
+
+
+	  <div id="header">
+	    <h1><a href="http://mpastell.com"> MPASTELL.COM</a></h1>
+	  </div>
+
+	<div id="navbar">
+            <a href="/">About</a>
+	    <a href="/blog/">Blog</a>
+	    <a href="/publications/">Publications</a>
+	    <a href="/software/">Software</a>
+<!--	    <a href="/teaching/">Teaching</a>	-->
+	    <a href="/guides/">Guides</a>
+	    <a href="/links/">Links</a>
+	</div>
+
+
+
+<img src="/images/lehmat.jpg"
+     alt="Cow header" class="scale-with-grid"/>
+
+<div id="main">
+      <h1>Pweave - Sweave for Python</h1>
+      <hr/>
+
+      <p><b>Author:</b> Matti Pastell<br/>
+<b>Tags:</b>
+<a href = "/tag/python/">Python</a>, <a href = "/tag/pweave/">Pweave</a>, <a href = "/tag/sweave/">Sweave</a>
+<br/>
+Mar 03 2010</p>
+
+<p>After looking into different options for literate programming with Python I ended up writing my own tool and call it <strong>Pweave</strong>. I have tried to implement the functionality of Sweave, that I really like and use for my R projects. Pweave is a single python script that is able to weave a python code between <code>&lt;&lt;&gt;&gt;=</code> and <code>@</code> blocks and include the results in the document. It can be used with reStructured text and Latex documents.</p>
+<p><strong>Update:</strong>. I’ve set up a <a href="http://mpastell.com/pweave">Pweave website</a>, you can also download it <a href="http://files.mpastell.com/Pweave">here</a>.</p>
+<p><strong>Codeblock options</strong> Pweave currently allows following options for the codeblocks (e.g. &lt;&gt;=): <em>fig</em> True or False. Whether a matplotlib plot produced in the codeblock should be included in the file. <em>echo</em> True or False. Echo the python code in the codeblock? <em>eval</em> True or False. Should the codeblock be evaluated? <em>results</em> “rst”, “tex” or “verbatim”. The output format of the printed results. <strong>Example:</strong> The syntax of Pweave is similar to Sweave, here is a small example sourcefile <a href="http://files.mpastell.com/ma.Pnw">ma.Pnw</a> which can be processed with Pweave using:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">Pweave</span> ma.Pnw</code></pre></div>
+<p>which produces a reStructured text document <a href="http://files.mpastell.com/ma.rst">ma.rst</a>, which can in turn be processed to <a href="http://files.mpastell.com/ma.pdf">ma.pdf</a> with rst2latex and pdflatex.</p>
+
+
+
+<div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'mpastell'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      <BR class = "clear"/>
+      <div id="footer">
+	<hr/>
+	&copy; Matti Pastell 2011- . Site built using <a href="http://nanoc.stoneship.org/">nanoc</a> and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a></div>
+	</div>
+
+      </div>
+    </div>
+
+  </body>
+  </html>

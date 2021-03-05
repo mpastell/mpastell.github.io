@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matti Pastell &raquo; FIR filter design with Python and SciPy</title>
+    
+
+    <!-- Skeleton     --> 
+    <link rel="stylesheet" type="text/css" href="/css/layout.css"
+    media="screen"/> 
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css"
+    media="screen"/> 
+    <link rel="stylesheet" type="text/css" href="/css/base.css"
+    media="screen"/> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <link rel="stylesheet" type="text/css" href="/css/mpastell.css" media="screen"/> 
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css" media="screen"/> 
+    <link rel="alternate" type="application/atom+xml" title="mpastell.com Articles Feed - mpastell.com" href="/feed/" />    
+    <link rel="alternate" type="application/atom+xml" title="R Articles Feed - mpastell.com" href="/tag/r/feed/" />    
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="generator" content="nanoc 3.1.6, pandoc 1.8" />
+    <meta name="author" content="Matti Pastell" />
+    <meta name="description" content="Matti Pastell's website and blog" />
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6474352-4']);
+      _gaq.push(['_trackPageview']);
+      
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+  
+    <div class ="container">
+      <div class="sixteen columns">
+
+
+	  <div id="header">
+	    <h1><a href="http://mpastell.com"> MPASTELL.COM</a></h1> 
+	  </div>
+	    
+	<div id="navbar">
+            <a href="/">About</a>
+	    <a href="/blog/">Blog</a>
+	    <a href="/publications/">CV+Publications</a>
+	    <a href="/software/">Software</a>
+<!--	    <a href="/teaching/">Teaching</a>	-->
+	    <a href="/guides/">Guides</a>
+	    <a href="/links/">Links</a>
+	</div>
+	    
+
+
+<img src="/images/lehmat.jpg"
+     alt="Cow header" class="scale-with-grid"/>
+
+<div id="main">
+      <h1>FIR filter design with Python and SciPy</h1>
+      <hr/>
+      
+      <p><b>Author:</b> Matti Pastell<br/>
+<b>Tags:</b>
+<a href = "/tag/scipy/">SciPy</a>, <a href = "/tag/python/">Python</a>, <a href = "/tag/dsp/">DSP</a>
+<br/>
+Jan 18 2010</p>
+
+<div id="TOC"><h2>Table of contents</h2> 
+<ul>
+<li><a href="#lowpass-fir-filter">Lowpass FIR filter</a></li>
+<li><a href="#highpass-fir-filter">Highpass FIR Filter</a></li>
+<li><a href="#bandpass-fir-filter">Bandpass FIR filter</a></li>
+<li><a href="#functions-for-frequency-phase-impulse-and-step-response">Functions for frequency, phase, impulse and step response</a></li>
+</ul>
+</div>
+
+<p>SciPy really has good capabilities for DSP, but the filter design functions lack good examples. A while back I wrote about <a href="http://mpastell.com/2009/11/05/iir-filter-design-with-python-and-scipy/">IIR filter design with SciPy</a>. Today I'm going to implement lowpass, highpass and bandpass example for FIR filters. We use the same functions (mfreqz and impz, shown in the end of this post as well) as in the previous post to get the frequency, phase, impulse and step responses. You can download this example along with the functions here <a href="http://files.mpastell.com/FIR_design.py">FIR_design.py</a>. To begin with we'll import pylab and scipy.signal:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="kn">as</span> <span class="nn">signal</span>
+</pre></div>
+
+<h4 id="lowpass-fir-filter"><a href="#TOC">Lowpass FIR filter</a></h4>
+<p>Designing a lowpass FIR filter is very simple to do with SciPy, all you need to do is to define the window length, cut off frequency and the window:</p>
+<div class="highlight"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">61</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">firwin</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">window</span> <span class="o">=</span> <span class="s">&quot;hamming&quot;</span><span class="p">)</span>
+<span class="c">#Frequency and phase response</span>
+<span class="n">mfreqz</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">show</span><span class="p">()</span>
+<span class="c">#Impulse and step response</span>
+<span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">impz</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+<p>Which yields:</p>
+<p><img src="http://mpastell.com/images/FIR_lowpass.png" title="" alt="image" /></p>
+<p><img src="http://mpastell.com/images/FIR_lowpass_impz.png" title="" alt="image" /></p>
+<h4 id="highpass-fir-filter"><a href="#TOC">Highpass FIR Filter</a></h4>
+<p>SciPy does not have a function for directly designing a highpass FIR filter, however it is fairly easy design a lowpass filter and use <em>spectral inversion</em> to convert it to highpass. See e.g <a href="http://www.dspguide.com/ch16.htm">Chp 16 of The Scientist and Engineer's Guide to Digital Signal Processing</a> for the theory, the last page has an example code.</p>
+<div class="highlight"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">101</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">firwin</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">window</span> <span class="o">=</span> <span class="s">&quot;hanning&quot;</span><span class="p">)</span>
+<span class="c">#Spectral inversion</span>
+<span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span>
+<span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">mfreqz</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+<p><img src="http://mpastell.com/images/FIR_highpass.png" title="" alt="image" /></p>
+<h4 id="bandpass-fir-filter"><a href="#TOC">Bandpass FIR filter</a></h4>
+<p>To get a bandpass FIR filter with SciPy we first need to design appropriate lowpass and highpass filters and then combine them:</p>
+<div class="highlight"><pre><span class="n">n</span> <span class="o">=</span> <span class="mi">1001</span>
+<span class="c">#Lowpass filter</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">firwin</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">window</span> <span class="o">=</span> <span class="s">&#39;blackmanharris&#39;</span><span class="p">)</span>
+<span class="c">#Highpass filter with spectral inversion</span>
+<span class="n">b</span> <span class="o">=</span> <span class="o">-</span> <span class="n">signal</span><span class="o">.</span><span class="n">firwin</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">cutoff</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">window</span> <span class="o">=</span> <span class="s">&#39;blackmanharris&#39;</span><span class="p">);</span> <span class="n">b</span><span class="p">[</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c">#Combine into a bandpass filter</span>
+<span class="n">d</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">);</span> <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c">#Frequency response</span>
+<span class="n">mfreqz</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+<p><img src="http://mpastell.com/images/FIR_bandpass.png" title="" alt="image" /></p>
+<h4 id="functions-for-frequency-phase-impulse-and-step-response"><a href="#TOC">Functions for frequency, phase, impulse and step response</a></h4>
+<div class="highlight"><pre><span class="c">#Plot frequency and phase response</span>
+<span class="k">def</span> <span class="nf">mfreqz</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">w</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">freqz</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">h_dB</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">log10</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="n">w</span><span class="p">),</span><span class="n">h_dB</span><span class="p">)</span>
+    <span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">150</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Magnitude (db)&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;Normalized Frequency (x$\pi$rad/sample)&#39;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">r&#39;Frequency response&#39;</span><span class="p">)</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">)</span>
+    <span class="n">h_Phase</span> <span class="o">=</span> <span class="n">unwrap</span><span class="p">(</span><span class="n">arctan2</span><span class="p">(</span><span class="n">imag</span><span class="p">(</span><span class="n">h</span><span class="p">),</span><span class="n">real</span><span class="p">(</span><span class="n">h</span><span class="p">)))</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="n">w</span><span class="p">),</span><span class="n">h_Phase</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Phase (radians)&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;Normalized Frequency (x$\pi$rad/sample)&#39;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">r&#39;Phase response&#39;</span><span class="p">)</span>
+    <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c">#Plot step and impulse response</span>
+<span class="k">def</span> <span class="nf">impz</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">impulse</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="n">l</span><span class="p">);</span> <span class="n">impulse</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span><span class="mf">1.</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">l</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">impulse</span><span class="p">)</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">)</span>
+    <span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Amplitude&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;n (samples)&#39;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">r&#39;Impulse response&#39;</span><span class="p">)</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">)</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="n">stem</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Amplitude&#39;</span><span class="p">)</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;n (samples)&#39;</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">r&#39;Step response&#39;</span><span class="p">)</span>
+    <span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+
+         
+
+
+
+      
+      <BR class = "clear"/>
+      <div id="footer">
+	<hr/>
+	&copy; Matti Pastell 2011. Site built using <a href="http://nanoc.stoneship.org/">nanoc</a> and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a></div>
+	</div>
+    
+      </div>
+    </div>
+
+  </body>
+  </html>

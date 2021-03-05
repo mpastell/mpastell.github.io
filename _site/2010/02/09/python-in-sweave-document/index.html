@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matti Pastell &raquo; Python in Sweave document</title>
+
+
+    <!-- Skeleton     -->
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/css/base.css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/mpastell.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pandoc.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/bib-publication-list.css" media="screen"/>
+
+
+    <link rel="alternate" type="application/atom+xml" title="mpastell.com Articles Feed - mpastell.com" href="/feed/" />
+    <link rel="alternate" type="application/atom+xml" title="R Articles Feed - mpastell.com" href="/tag/r/feed/" />
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="Matti Pastell" />
+    <meta name="description" content="Matti Pastell's website and blog" />
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6474352-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+
+    <div class ="container">
+      <div class="sixteen columns">
+
+
+	  <div id="header">
+	    <h1><a href="http://mpastell.com"> MPASTELL.COM</a></h1>
+	  </div>
+
+	<div id="navbar">
+            <a href="/">About</a>
+	    <a href="/blog/">Blog</a>
+	    <a href="/publications/">Publications</a>
+	    <a href="/software/">Software</a>
+<!--	    <a href="/teaching/">Teaching</a>	-->
+	    <a href="/guides/">Guides</a>
+	    <a href="/links/">Links</a>
+	</div>
+
+
+
+<img src="/images/lehmat.jpg"
+     alt="Cow header" class="scale-with-grid"/>
+
+<div id="main">
+      <h1>Python in Sweave document</h1>
+      <hr/>
+
+      <p><b>Author:</b> Matti Pastell<br/>
+<b>Tags:</b>
+<a href = "/tag/python/">Python</a>, <a href = "/tag/sweave/">Sweave</a>, <a href = "/tag/r/">R</a>
+<br/>
+Feb 09 2010</p>
+
+<p>Lately I have been using a lot of Python for signal processing and I quite like SciPy. However, I have been missing something like Sweave, which is great literate programming environment for R. Today I managed to look a bit more into it and found this hack on how to use <a href="http://romainfrancois.blog.free.fr/index.php?post/2009/01/21/Python-and-Sweave">Python code in Sweave document</a> by Romain Francois. However, I wanted to be able to catch the input as well as output so I made a small changes to his Sweave Driver.</p>
+<h4 id="modifications-to-the-custom-driver">Modifications to the custom driver:</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">driver &lt;-<span class="st"> </span><span class="kw">RweaveLatex</span>() 
+runcode &lt;-<span class="st"> </span>driver<span class="op">$</span>runcode
+
+driver<span class="op">$</span>runcode &lt;-<span class="st"> </span><span class="cf">function</span>(object, chunk, options){ 
+  <span class="cf">if</span>( options<span class="op">$</span>engine <span class="op">==</span><span class="st"> &quot;python&quot;</span>)
+    { driver<span class="op">$</span><span class="kw">writedoc</span>( object, <span class="kw">c</span>(<span class="st">&quot;</span><span class="ch">\\\\</span><span class="st">begin{verbatim}&quot;</span>, chunk,
+    <span class="st">&quot;</span><span class="ch">\\\\</span><span class="st">end{verbatim}&quot;</span>, <span class="st">&quot;</span><span class="ch">\\\\</span><span class="st">begin{python}&quot;</span>, chunk,<span class="st">&quot;</span><span class="ch">\\\\</span><span class="st">end{python}&quot;</span>) ) }
+  <span class="cf">else</span>{ <span class="kw">runcode</span>( object, chunk, options ) 
+  } 
+}</code></pre></div>
+<p>The driver now catches the input in verbatim environment (which can be easily changed to listings) and the output to python environment. The tex document can then be processed with the <a href="http://files.mpastell.com/python.sty">python latex package</a> to evaluate the python expressions. Tho use the driver you need to put the option “engine=”python&quot; in your code chunks.</p>
+<h4 id="example-usage">Example usage</h4>
+<p>My example is python code that calculates and plots the frequency response of a moving average filter. Here is the code in the Sweave document <a href="http://files.mpastell.com/ma.Rnw">ma.Rnw</a>. Process the file in R using the custom driver above:</p>
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r"><span class="kw">Sweave</span>( <span class="st">&quot;ma.Rnw&quot;</span>, <span class="dt">driver =</span> driver)</code></pre></div>
+<p>It should produce <a href="http://files.mpastell.com/ma.tex">ma.tex</a>. Then run latex (make sure you have the python package installed):</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">pdflatex</span> -shell-escape ma.tex </code></pre></div>
+<p>Which should then in turn output this <a href="http://files.mpastell.com/sweave/ma.pdf">ma.pdf</a> file.</p>
+
+
+
+<div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'mpastell'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      <BR class = "clear"/>
+      <div id="footer">
+	<hr/>
+	&copy; Matti Pastell 2011- . Site built using <a href="http://nanoc.stoneship.org/">nanoc</a> and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a></div>
+	</div>
+
+      </div>
+    </div>
+
+  </body>
+  </html>

@@ -1,0 +1,19 @@
+---
+layout: page
+title: Publications
+permalink: /publications/
+---
+
+<p>
+Here is a list of my peer reviewed papers, preprints and most other publications. You can find slides from my conference talks on <a href="https://www.researchgate.net/profile/Matti_Pastell">Researchgate</a>.
+</p>
+<table id="pubTable" class="display">
+</table>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- <script type="text/javascript" src="/publications/jquery-1.12.4.min.js"></script> -->
+<script type="text/javascript" src="/assets/bib-list.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+   bibtexify("/assets/Omat.bib", "pubTable");
+});
+</script>

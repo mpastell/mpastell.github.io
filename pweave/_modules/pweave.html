@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pweave &mdash; Pweave v0.30 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Pweave v0.30 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.30
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Pweave - Scientific Reports Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Pweave Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../script.html">Using Pweave from Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chunks.html">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pweave.html">Using pweave module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bokeh.html">Using Bokeh with Pweave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../editors.html">Editor support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Pweave example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../docs.html">Pweave documentation</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../docs.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>pweave</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pweave</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Python module Pweave</span>
+<span class="c1"># Matti Pastell 2010-2016</span>
+<span class="c1"># http://mpastell.com/pweave</span>
+
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">readers</span>
+<span class="kn">from</span> <span class="nn">.pweb</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.formatters</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.readers</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.processors</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.30&#39;</span>
+
+<div class="viewcode-block" id="weave"><a class="viewcode-back" href="../pweave.html#pweave.weave">[docs]</a><span class="k">def</span> <span class="nf">weave</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">doctype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">informat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;python3&quot;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">docmode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+          <span class="n">figdir</span><span class="o">=</span><span class="s1">&#39;figures&#39;</span><span class="p">,</span> <span class="n">cachedir</span><span class="o">=</span><span class="s1">&#39;cache&#39;</span><span class="p">,</span>
+          <span class="n">figformat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">listformats</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+          <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mimetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes a Pweave document and writes output to a file</span>
+
+<span class="sd">    :param file: ``string`` input file</span>
+<span class="sd">    :param doctype: ``string`` output document format: call with listformats true to get list of supported formats.</span>
+<span class="sd">    :param informat: ``string`` input format: &quot;noweb&quot;, &quot;markdown&quot;, &quot;notebook&quot; or &quot;script&quot;</span>
+<span class="sd">    :param kernel: ``string`` Jupyter kernel used to run code: default is python3</span>
+<span class="sd">    :param plot: ``bool`` use matplotlib</span>
+<span class="sd">    :param docmode: ``bool`` use documentation mode, chunk code and results will be loaded from cache and inline code will be hidden</span>
+<span class="sd">    :param cache: ``bool`` Cache results to disk for documentation mode</span>
+<span class="sd">    :param figdir: ``string`` directory path for figures</span>
+<span class="sd">    :param cachedir: ``string`` directory path for cached results used in documentation mode</span>
+<span class="sd">    :param figformat: ``string`` format for saved figures (e.g. &#39;.png&#39;), if None then the default for each format is used</span>
+<span class="sd">    :param listformats: ``bool`` List available formats and exit</span>
+<span class="sd">    :param output: ``string`` output file</span>
+<span class="sd">    :param mimetype: ``string`` Source document&#39;s text mimetype. This is used to set cell</span>
+<span class="sd">                                type in Jupyter notebooks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">listformats</span><span class="p">:</span>
+        <span class="n">PwebFormats</span><span class="o">.</span><span class="n">listformats</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">figformat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;figformat option is not implemented for Pweave &gt;= 0.3&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">file</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;No input specified&quot;</span>
+
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">Pweb</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">informat</span><span class="o">=</span><span class="n">informat</span><span class="p">,</span> <span class="n">doctype</span><span class="o">=</span><span class="n">doctype</span><span class="p">,</span>
+               <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span> <span class="n">figdir</span><span class="o">=</span><span class="n">figdir</span><span class="p">,</span>
+               <span class="n">mimetype</span><span class="o">=</span><span class="n">mimetype</span>
+               <span class="p">)</span>
+    <span class="n">doc</span><span class="o">.</span><span class="n">documentationmode</span> <span class="o">=</span> <span class="n">docmode</span>
+
+    <span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;usematplotlib&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plot</span>
+    <span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;cachedir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cachedir</span>
+    <span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;storeresults&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cache</span>
+
+    <span class="n">doc</span><span class="o">.</span><span class="n">weave</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="tangle"><a class="viewcode-back" href="../pweave.html#pweave.tangle">[docs]</a><span class="k">def</span> <span class="nf">tangle</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">informat</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tangles a noweb file i.e. extracts code from code chunks to a .py file</span>
+
+<span class="sd">    :param file: ``string`` the pweave document containing the code</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">Pweb</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">informat</span> <span class="o">=</span> <span class="n">informat</span><span class="p">)</span>
+    <span class="n">doc</span><span class="o">.</span><span class="n">tangle</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="publish"><a class="viewcode-back" href="../pweave.html#pweave.publish">[docs]</a><span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">doc_format</span><span class="o">=</span><span class="s2">&quot;html&quot;</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s2">&quot;skeleton&quot;</span><span class="p">,</span> <span class="n">latex_engine</span><span class="o">=</span><span class="s2">&quot;pdflatex&quot;</span><span class="p">,</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Publish python script and results to html or pdf, expects that doc</span>
+<span class="sd">    chunks are  written in markdown.</span>
+
+<span class="sd">    :param file: ``string`` input file&quot;</span>
+<span class="sd">    :param format: ``string`` output format &quot;html&quot; of &quot;pdf&quot;, pdf output</span>
+<span class="sd">            requires pandoc and pdflatex in your path.</span>
+<span class="sd">    :param latex_engine: ``string`` the command for running latex. Defaults to &quot;pdflatex&quot;.</span>
+<span class="sd">    :param output: ``string`` output file. Use .tex extension for pdf output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">doc_format</span> <span class="o">==</span> <span class="s2">&quot;html&quot;</span><span class="p">:</span>
+        <span class="n">pformat</span> <span class="o">=</span> <span class="s2">&quot;md2html&quot;</span>
+    <span class="k">elif</span> <span class="n">doc_format</span> <span class="o">==</span> <span class="s2">&quot;pdf&quot;</span><span class="p">:</span>
+        <span class="n">pformat</span> <span class="o">=</span> <span class="s2">&quot;pandoc2latex&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unknown format, exiting&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">Pweb</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;python3&quot;</span><span class="p">,</span> <span class="n">doctype</span><span class="o">=</span><span class="n">pformat</span><span class="p">,</span>
+               <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="n">doc</span><span class="o">.</span><span class="n">theme</span> <span class="o">=</span> <span class="n">theme</span>
+
+    <span class="n">doc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">doc</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">doc</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+
+    <span class="n">doc</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">doc_format</span> <span class="o">==</span> <span class="s2">&quot;pdf&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">latex</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">([</span><span class="n">latex_engine</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">sink</span><span class="p">],</span> <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running &quot;</span> <span class="o">+</span> <span class="n">latex_engine</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can&#39;t find &quot;</span> <span class="o">+</span> <span class="n">latex_engine</span> <span class="o">+</span> <span class="s2">&quot;, no pdf produced!&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">latex</span><span class="o">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]))</span></div>
+
+
+<div class="viewcode-block" id="spin"><a class="viewcode-back" href="../pweave.html#pweave.spin">[docs]</a><span class="k">def</span> <span class="nf">spin</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert input file from script format to noweb format, similar to Knitr&#39;s spin.&quot;&quot;&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">PwebConvert</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convert"><a class="viewcode-back" href="../pweave.html#pweave.convert">[docs]</a><span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">informat</span><span class="o">=</span><span class="s2">&quot;noweb&quot;</span><span class="p">,</span> <span class="n">outformat</span><span class="o">=</span><span class="s2">&quot;script&quot;</span><span class="p">,</span> <span class="n">pandoc_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">listformats</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert input file from script to noweb or vice versa</span>
+
+<span class="sd">    :param file: ``string`` input file</span>
+<span class="sd">    :param informat: ``string`` input format noweb, script or notebook</span>
+<span class="sd">    :param outformat: ``string`` input format noweb or script</span>
+<span class="sd">    :param pandoc_args: ``string`` arguments passed to pandoc to convert doc chunks.</span>
+<span class="sd">           e.g. to convert from markdown to latex use: `&quot;-f markdown -t latex&quot;` .</span>
+<span class="sd">           Note that each doc chunk is converted separately so you can&#39;t use pandocs -s option.</span>
+<span class="sd">    :param listformats: ``bool`` List available formats and exit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">listformats</span><span class="p">:</span>
+        <span class="n">readers</span><span class="o">.</span><span class="n">PwebConverters</span><span class="o">.</span><span class="n">listformats</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="n">Converter</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">PwebConverters</span><span class="o">.</span><span class="n">formats</span><span class="p">[</span><span class="n">outformat</span><span class="p">][</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
+    <span class="c1"># pandoc_args = None skips the call to pandoc</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">informat</span><span class="p">,</span> <span class="n">outformat</span><span class="p">,</span> <span class="n">pandoc_args</span><span class="p">)</span>
+    <span class="n">doc</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+    <span class="n">doc</span><span class="o">.</span><span class="n">write</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">listformats</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;List output formats&quot;&quot;&quot;</span>
+    <span class="n">PwebFormats</span><span class="o">.</span><span class="n">listformats</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Sep 10, 2017.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.30',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

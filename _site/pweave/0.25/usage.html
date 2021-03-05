@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pweave Basics &mdash; Pweave v0.25 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Pweave v0.25 documentation" href="index.html"/>
+        <link rel="next" title="Code Chunk Options" href="chunks.html"/>
+        <link rel="prev" title="Pweave - Scientific Reports Using Python" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Pweave - Scientific Reports Using Python</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pweave Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pweave-documents">Pweave documents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code-chunk-formats">Code chunk formats</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#noweb">noweb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#markdown">markdown</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#documentation-chunk">Documentation chunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inline-code">Inline code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#weaving-pweave-documents">Weaving Pweave Documents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tangling-pweave-documents">Tangling Pweave Documents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#caching-results">Caching results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#document-types">Document types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chunks.html">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pweave.html">Using pweave module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Pweave example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="editors.html">Editor support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="docs.html">Pweave documentation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="docs.html">Docs</a> &raquo;</li>
+      
+    <li>Pweave Basics</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/usage.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pweave-basics">
+<h1>Pweave Basics<a class="headerlink" href="#pweave-basics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pweave-documents">
+<span id="index-0"></span><h2>Pweave documents<a class="headerlink" href="#pweave-documents" title="Permalink to this headline">¶</a></h2>
+<p>A Pweave input document contains documentation and code separated with special
+markup. Pweave supports several input formats for different purposes. All of the
+source formats produce identical output for code. You need to tell the input format
+to Pweave using <cite>-i</cite> command line option.</p>
+<div class="section" id="code-chunk-formats">
+<h3>Code chunk formats<a class="headerlink" href="#code-chunk-formats" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="noweb">
+<h4>noweb<a class="headerlink" href="#noweb" title="Permalink to this headline">¶</a></h4>
+<p>Noweb syntax for defining code chunks has been adopted from  <a class="reference external" href="http://www.stat.uni-muenchen.de/~leisch/Sweave/">Sweave</a>.</p>
+<p>Code chunk starts with a line marked with <code class="docutils literal"><span class="pre">&lt;&lt;&gt;&gt;=</span></code> or <code class="docutils literal"><span class="pre">&lt;&lt;options&gt;&gt;=</span></code> and end
+with line marked with <code class="docutils literal"><span class="pre">&#64;</span></code>. The code between the start and end markers
+is executed and the output is captured to the output document.</p>
+<p><strong>Example:</strong> A code chunk that saves and displays a 12 cm wide image
+and hides the source code:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;&lt;</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="s1">&#39;12 cm&#39;</span><span class="p">,</span> <span class="n">echo</span> <span class="o">=</span> <span class="kc">False</span><span class="o">&gt;&gt;=</span>
+<span class="kn">from</span> <span class="nn">pylab</span> <span class="k">import</span> <span class="o">*</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">show</span><span class="p">()</span>
+<span class="o">@</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="markdown">
+<h4>markdown<a class="headerlink" href="#markdown" title="Permalink to this headline">¶</a></h4>
+<p>Pweave can run code from fenced markdown python code blocks. All of the
+following are valid ways to define a code chunk:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>```python
+```{python}
+```{.python}
+</pre></div>
+</div>
+<p>However options can only be defined in brackets:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>```{python, caption = &quot;Some figure&quot;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="documentation-chunk">
+<h3>Documentation chunk<a class="headerlink" href="#documentation-chunk" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>The rest of the document is just copied to ouput and can be written with
+several different markup languages. See <a class="reference external" href="formats.html">formats</a> page for
+a list of supported output formats.</div></blockquote>
+</div>
+<div class="section" id="inline-code">
+<h3>Inline code<a class="headerlink" href="#inline-code" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Pweave supports evaluating inline code in documentation chunks
+using <code class="docutils literal"><span class="pre">&lt;%</span> <span class="pre">%&gt;</span></code> (code will be evaluated in place) and <code class="docutils literal"><span class="pre">&lt;%=</span> <span class="pre">%&gt;</span></code>
+(result of expression will be printed) tags. Inline code will not
+be included in weaved document.</p>
+<p><strong>Example</strong>: Use inline code to set some matplotlib options.</p>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;%</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;figure.figsize&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+                        <span class="s1">&#39;savefig.dpi&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+                        <span class="s1">&#39;font.size&#39;</span> <span class="p">:</span> <span class="mi">10</span> <span class="p">})</span>
+<span class="o">%&gt;</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.2.</span></p>
+</div>
+</div>
+</div>
+<div class="section" id="weaving-pweave-documents">
+<span id="index-1"></span><h2>Weaving Pweave Documents<a class="headerlink" href="#weaving-pweave-documents" title="Permalink to this headline">¶</a></h2>
+<p>Weaving a Pweave source file produces a document
+that contains text and the weaved code together with its
+evaluated output.  All of the produced figures are placed in the
+&#8216;figures/&#8217; folder as a default.</p>
+<p><strong>Pweave documents are weaved from the shell with the command:</strong></p>
+<dl class="describe">
+<dt>
+<code class="descname">Pweave [options] sourcefile</code></dt>
+<dd></dd></dl>
+
+<p>Options:</p>
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave--version">
+<code class="descname">--version</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-Pweave--version" title="Permalink to this definition">¶</a></dt>
+<dd><p>show the version number and exit</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave-h">
+<span id="cmdoption-Pweave--help"></span><code class="descname">-h</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--help</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-Pweave-h" title="Permalink to this definition">¶</a></dt>
+<dd><p>show help message and exit</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave-f">
+<span id="cmdoption-Pweave--format"></span><code class="descname">-f</code><code class="descclassname"> FORMAT</code><code class="descclassname">, </code><code class="descname">--format</code><code class="descclassname"> FORMAT</code><a class="headerlink" href="#cmdoption-Pweave-f" title="Permalink to this definition">¶</a></dt>
+<dd><p>The output format. Available formats: sphinx, pandoc, tex, html,
+rst, texpweave, texminted. See <a class="reference external" href="http://mpastell.com/pweave/formats.html">http://mpastell.com/pweave/formats.html</a></p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave-m">
+<span id="cmdoption-Pweave--matplotlib"></span><code class="descname">-m</code><code class="descclassname"> MPLOTLIB</code><code class="descclassname">, </code><code class="descname">--matplotlib</code><code class="descclassname">=MPLOTLIB</code><a class="headerlink" href="#cmdoption-Pweave-m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do you want to use matplotlib (or Sho with Ironpython) true
+(default) or false</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave-d">
+<span id="cmdoption-Pweave--documentation-mode"></span><code class="descname">-d</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--documentation-mode</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-Pweave-d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use documentation mode, chunk code and results will be loaded from
+cache and inline code will be hidden</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave-c">
+<span id="cmdoption-Pweave--cache-results"></span><code class="descname">-c</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--cache-results</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-Pweave-c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cache results to disk for documentation mode</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave--figure-directory">
+<code class="descname">--figure-directory</code><code class="descclassname">=FIGDIR</code><a class="headerlink" href="#cmdoption-Pweave--figure-directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directory path for matplolib graphics: Default &#8216;figures&#8217;</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave--cache-directory">
+<code class="descname">--cache-directory</code><code class="descclassname">=CACHEDIR</code><a class="headerlink" href="#cmdoption-Pweave--cache-directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directory path for cached results used in documentation mode:
+Default &#8216;cache&#8217;</p>
+</dd></dl>
+
+<dl class="cmdoption">
+<dt id="cmdoption-Pweave-g">
+<span id="cmdoption-Pweave--figure-format"></span><code class="descname">-g</code><code class="descclassname"> FIGFMT</code><code class="descclassname">, </code><code class="descname">--figure-format</code><code class="descclassname">=FIGFMT</code><a class="headerlink" href="#cmdoption-Pweave-g" title="Permalink to this definition">¶</a></dt>
+<dd><p>Figure format for matplolib graphics: Defaults to &#8216;png&#8217; for rst and
+Sphinx html documents and &#8216;pdf&#8217; for tex</p>
+</dd></dl>
+
+<p>Weave a document with default options (rst with png figures)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pweave ma.Pnw
+Output written to ma.rst
+</pre></div>
+</div>
+<p>Weave a Latex document with png figures:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pweave -f tex -g png source.Pnw
+</pre></div>
+</div>
+<p>Get options:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pweave --help
+</pre></div>
+</div>
+</div>
+<div class="section" id="tangling-pweave-documents">
+<h2>Tangling Pweave Documents<a class="headerlink" href="#tangling-pweave-documents" title="Permalink to this headline">¶</a></h2>
+<p>Tangling refers to extracting the source code from Pweave
+document. This can be done using Ptangle script:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ ptangle file
+
+$ ptangle ma.pnw
+Tangled code from ma.pnw to ma.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="caching-results">
+<h2>Caching results<a class="headerlink" href="#caching-results" title="Permalink to this headline">¶</a></h2>
+<p>Pweave has documentation mode (invoked with <code class="docutils literal"><span class="pre">-d</span></code>) that caches code
+and all results from code chunks so you don&#8217;t need to rerun the code
+when you are only working on documentation. You can cache the results
+using the <cite>-c</cite> option, if there are no cached results then
+documentation mode will create the cache on first run.  Inline code
+chunks will be hidden in documentation mode. Additionally Pweave will
+warn you if the code in cached chunks has changed after the last run.</p>
+</div>
+<div class="section" id="document-types">
+<h2>Document types<a class="headerlink" href="#document-types" title="Permalink to this headline">¶</a></h2>
+<dl class="describe">
+<dt>
+<code class="descname">Source document</code></dt>
+<dd><p>Contains a mixture of documentation and code chunks. Pweave will
+evaluate the code and leave the documentation chunks as they
+are. The documentation chunks can be written either with reST,Latex
+or Pandoc markdown. The source document is processed using
+<em>Pweave</em>, which gives us the formatted output document.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Weaved document</code></dt>
+<dd><p>Is produced by Pweave from the source document. Contains the
+documentation, original code, the captured outputof the code and
+optionally captured <a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> figures.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Source code</code></dt>
+<dd><p>Is produced by Pweave from the source document. Contains the source
+code extracted from the code chunks.</p>
+</dd></dl>
+
+<span class="target" id="index-2"></span></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chunks.html" class="btn btn-neutral float-right" title="Code Chunk Options" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Pweave - Scientific Reports Using Python" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Apr 21, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

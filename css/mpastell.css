@@ -1,0 +1,249 @@
+
+body {
+  background: #fff;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+    color: olive;
+}
+
+a:hover {
+    color: darkolivegreen;
+}
+
+
+#main {
+  text-align: justify;
+}
+
+#footer {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    text-align: right;
+
+}
+
+
+#header
+{
+    background-color : olive;
+    padding-left : 5px;
+
+}
+
+#header h1 
+{
+	font-size:1.2em;
+	font-variant:small-caps;
+	letter-spacing:0px;
+	font-weight:normal;
+
+}
+#header h1 a {
+	text-decoration:none;	
+	border:0;
+	color:black;
+	color : white;
+}
+
+#header h1 a:hover,
+#header h1 a:active {
+	text-decoration : underline;
+}
+
+
+
+
+#main h1 {
+  font-size: 30px;
+  color: darkolivegreen;
+  font-weight: normal;
+  line-height: 40px;
+  letter-spacing: -1px;
+}
+
+#main h2 {
+  margin-top: 10px;  
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+
+#main h2 a,
+#main h3 a,
+#main h4 a,
+#main h5 a
+{
+    color: black;
+}
+
+
+
+img.inline {
+    float: left;
+    padding: 3px;
+}
+
+#main img {
+    padding: 3px;
+    max-width: 100%;
+    height : auto;
+}
+
+
+#header img{
+    padding: 3px; 
+    float: none;
+}
+
+#main hr {
+    margin-bottom: 5px;
+    height : 2px;
+    background-color : olive;
+}
+
+#main p {
+/*    margin: 20px 0; */
+  margin-bottom: 15px;
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+#main ul ol {
+  margin: 20px 10px;
+
+}
+
+#main li {
+  margin: 10px 25px;
+  font-size: 14px;
+  line-height: 20px;  
+}
+
+
+#navlist>li
+{
+    float : left;
+    margin-left : 2px;
+    margin-right : 10px;
+    padding-right: 10px;
+    margin: 0px;
+    font-size : 16px;
+    line-height: 18px;  
+}
+
+#navlist>li:hover
+{
+
+}
+
+#navlist>li>a
+{
+    text-decoration : none;
+}
+
+
+#navbar
+{
+    margin : 0px;
+    margin-bottom : 0px;
+    padding-bottom : 0px;
+    font-size : 16px;
+    text-align : left;
+}
+
+#navbar a
+{
+/*background-color : olive;
+color : white;*/
+padding : 0px 4px 0px;
+border : 0px 4px;
+text-decoration : none;
+}
+
+#navbar a:hover
+{
+/*background-color : olive;
+color : white;*/
+    color : olive;
+    text-decoration : underline;
+}
+
+
+
+
+
+#cows
+{
+background-image : url('http://mpastell.com/wp-content/uploads/cropped-cropped-lehmat.jpg'); 
+background-repeat : repeat-x;
+height : 180px;
+}
+
+#tags {
+/*  position: absolute; */
+  padding: 10px 20px 0 0;
+  text-align: left;
+}
+
+#tags h2 {
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #333;
+  padding : 0px;
+  margin : 0px;
+  line-height : 14px;
+}
+
+#tags ul {
+  list-style-type: none;
+}
+
+#tags li {
+  float : left;
+  font-size: 14px;
+  line-height: 10px;
+  margin-right: 5px;
+  margin-left : 0px;
+}
+
+
+#TOC {
+/*  position: absolute; 
+  padding: 10px 20px 0 0;
+  border-right: 1px solid #ccc; */
+  text-align: left; 
+  padding: 10px 10px 0 0;
+}
+
+#TOC h2 {
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #333;
+  letter-spacing: 1px;
+  line-height: 20px;
+}
+
+#TOC ul {
+  list-style-type: none;
+  margin: 20px  0;
+}
+
+#TOC li {
+  font-size: 14px;
+  line-height: 15px;
+  margin-right: 0px;
+
+}
+
+
+

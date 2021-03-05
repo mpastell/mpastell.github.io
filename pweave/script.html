@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using Pweave from Command Line &mdash; Pweave v0.30 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Pweave v0.30 documentation" href="index.html"/>
+        <link rel="next" title="Code Chunk Options" href="chunks.html"/>
+        <link rel="prev" title="Pweave Basics" href="usage.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.30
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Pweave - Scientific Reports Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Pweave Basics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using Pweave from Command Line</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#weaving-pweave-documents">Weaving Pweave documents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#caching-results">Caching results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tangling-pweave-documents">Tangling Pweave Documents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chunks.html">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pweave.html">Using pweave module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bokeh.html">Using Bokeh with Pweave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="editors.html">Editor support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Pweave example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="docs.html">Pweave documentation</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="docs.html">Docs</a> &raquo;</li>
+        
+      <li>Using Pweave from Command Line</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/script.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-pweave-from-command-line">
+<h1>Using Pweave from Command Line<a class="headerlink" href="#using-pweave-from-command-line" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="weaving-pweave-documents">
+<h2>Weaving Pweave documents<a class="headerlink" href="#weaving-pweave-documents" title="Permalink to this headline">¶</a></h2>
+<p>Weaving a Pweave source file produces a document
+that contains text and the weaved code together with its
+evaluated output.  All of the produced figures are placed in the
+‘figures/’ folder as a default.</p>
+<p><strong>Pweave documents are weaved from the shell with the command:</strong></p>
+<dl class="describe">
+<dt>
+<code class="descname">pweave [options] sourcefile</code></dt>
+<dd><dl class="docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--version</span></kbd></td>
+<td>show program’s version number and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>show this help message and exit</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-f <var>DOCTYPE</var></span>, <span class="option">--format=<var>DOCTYPE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>The output format. Available formats:  tex, texminted,
+texpweave, texpygments, rst, pandoc, markdown,
+leanpub, sphinx, html, md2html, softcover,
+pandoc2latex, pandoc2html, notebook Use Pweave -l to
+list descriptions or see
+<a class="reference external" href="http://mpastell.com/pweave/formats.html">http://mpastell.com/pweave/formats.html</a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-i <var>INFORMAT</var></span>, <span class="option">--input-format=<var>INFORMAT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Input format: noweb, markdown, notebook or script</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-k <var>KERNEL</var></span>, <span class="option">--kernel=<var>KERNEL</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Jupyter kernel used to run code: default is python3</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output=<var>OUTPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Name of the output file</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-l</span>, <span class="option">--list-formats</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>List output formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-m</span>, <span class="option">--matplotlib</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Disable matplotlib</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-d</span>, <span class="option">--documentation-mode</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Use documentation mode, chunk code and results will be
+loaded from cache and inline code will be hidden</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-c</span>, <span class="option">--cache-results</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Cache results to disk for documentation mode</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-F <var>FIGDIR</var></span>, <span class="option">--figure-directory=<var>FIGDIR</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Directory path for matplolib graphics: Default
+‘figures’</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--cache-directory=<var>CACHEDIR</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Directory path for cached results used in
+documentation mode: Default ‘cache’</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-g <var>FIGFORMAT</var></span>, <span class="option">--figure-format=<var>FIGFORMAT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Figure format for matplotlib graphics: Defaults to
+‘png’ for rst and Sphinx html documents and ‘pdf’ for
+tex</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-t <var>MIMETYPE</var></span>, <span class="option">--mimetype=<var>MIMETYPE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>Source document’s text mimetype. This is used to set
+cell type in Jupyter notebooks</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Weave a markdown document. Output format is detected based on extension,
+but in can be changed using the <code class="docutils literal"><span class="pre">`-f</span></code> option:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pweave FIR_design.pmd
+</pre></div>
+</div>
+<p>Get options:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pweave --help
+</pre></div>
+</div>
+</div>
+<div class="section" id="caching-results">
+<h2>Caching results<a class="headerlink" href="#caching-results" title="Permalink to this headline">¶</a></h2>
+<p>Pweave has documentation mode (invoked with <code class="docutils literal"><span class="pre">-d</span></code>) that caches code
+and all results from code chunks so you don’t need to rerun the code
+when you are only working on documentation. You can cache the results
+using the <cite>-c</cite> option, if there are no cached results then
+documentation mode will create the cache on first run.  Inline code
+chunks will be hidden in documentation mode. Additionally Pweave will
+warn you if the code in cached chunks has changed after the last run.</p>
+</div>
+<div class="section" id="tangling-pweave-documents">
+<h2>Tangling Pweave Documents<a class="headerlink" href="#tangling-pweave-documents" title="Permalink to this headline">¶</a></h2>
+<p>Tangling refers to extracting the source code from Pweave
+document. This can be done using Ptangle script:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ ptangle file
+
+$ ptangle ma.pnw
+Tangled code from ma.pnw to ma.py
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chunks.html" class="btn btn-neutral float-right" title="Code Chunk Options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="usage.html" class="btn btn-neutral" title="Pweave Basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Sep 10, 2017.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.30',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

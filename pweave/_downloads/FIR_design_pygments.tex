@@ -1,0 +1,185 @@
+\documentclass[a4paper,11pt,final]{article}
+\usepackage{fancyvrb, color, graphicx, hyperref, amsmath, url}
+\usepackage{palatino}
+\usepackage{pygments}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+        
+\hypersetup  
+{   pdfauthor = {Matti Pastell},
+  pdftitle={FIR filter design with Python and SciPy},
+  colorlinks=TRUE,
+  linkcolor=black,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+        
+\title{FIR filter design with Python and SciPy}
+\author{Matti Pastell \\ \url{http://mpastell.com}}
+\date{15th April 2013}
+
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+
+This an example of a document that can be published using
+\href{http://mpastell.com/pweave}{Pweave}. Text is written
+using \LaTeX{} and code between \texttt{<<>>} and \texttt{@} is executed
+and results are included in the resulting document.
+
+You can define various options for code chunks to control code
+execution and formatting (see
+\href{http://mpastell.com/pweave/usage.html\#code-chunk-options}{Pweave
+docs}).
+
+\section{FIR Filter Design}
+
+We'll implement lowpass, highpass and ' bandpass FIR filters. If you
+want to read more about DSP I highly recommend
+\href{http://www.dspguide.com/}{The Scientist and Engineer's Guide to
+Digital Signal Processing} which is freely available online.
+
+\subsection{Functions for frequency, phase, impulse and step response}
+
+Let's first define functions to plot filter properties.
+
+
+
+
+\begin{Verbatim}[commandchars=\\\{\},frame=single,fontsize=\small, xleftmargin=0.5em]
+\PY{k+kn}{from} \PY{n+nn}{pylab} \PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{import} \PY{n+nn}{scipy.signal} \PY{k+kn}{as} \PY{n+nn}{signal}
+    
+\PY{c+c1}{\PYZsh{}Plot frequency and phase response}
+\PY{k}{def} \PY{n+nf}{mfreqz}\PY{p}{(}\PY{n}{b}\PY{p}{,}\PY{n}{a}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{n}{w}\PY{p}{,}\PY{n}{h} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{freqz}\PY{p}{(}\PY{n}{b}\PY{p}{,}\PY{n}{a}\PY{p}{)}
+    \PY{n}{h\PYZus{}dB} \PY{o}{=} \PY{l+m+mi}{20} \PY{o}{*} \PY{n}{log10} \PY{p}{(}\PY{n+nb}{abs}\PY{p}{(}\PY{n}{h}\PY{p}{)}\PY{p}{)}
+    \PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{211}\PY{p}{)}
+    \PY{n}{plot}\PY{p}{(}\PY{n}{w}\PY{o}{/}\PY{n+nb}{max}\PY{p}{(}\PY{n}{w}\PY{p}{)}\PY{p}{,}\PY{n}{h\PYZus{}dB}\PY{p}{)}
+    \PY{n}{ylim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{150}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+    \PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Magnitude (db)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Normalized Frequency (x\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{pi\PYZdl{}rad/sample)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Frequency response}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{212}\PY{p}{)}
+    \PY{n}{h\PYZus{}Phase} \PY{o}{=} \PY{n}{unwrap}\PY{p}{(}\PY{n}{arctan2}\PY{p}{(}\PY{n}{imag}\PY{p}{(}\PY{n}{h}\PY{p}{)}\PY{p}{,}\PY{n}{real}\PY{p}{(}\PY{n}{h}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plot}\PY{p}{(}\PY{n}{w}\PY{o}{/}\PY{n+nb}{max}\PY{p}{(}\PY{n}{w}\PY{p}{)}\PY{p}{,}\PY{n}{h\PYZus{}Phase}\PY{p}{)}
+    \PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Phase (radians)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Normalized Frequency (x\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{pi\PYZdl{}rad/sample)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Phase response}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{hspace}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Plot step and impulse response}
+\PY{k}{def} \PY{n+nf}{impz}\PY{p}{(}\PY{n}{b}\PY{p}{,}\PY{n}{a}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{n}{l} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{b}\PY{p}{)}
+    \PY{n}{impulse} \PY{o}{=} \PY{n}{repeat}\PY{p}{(}\PY{l+m+mf}{0.}\PY{p}{,}\PY{n}{l}\PY{p}{)}\PY{p}{;} \PY{n}{impulse}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=}\PY{l+m+mf}{1.}
+    \PY{n}{x} \PY{o}{=} \PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{l}\PY{p}{)}
+    \PY{n}{response} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{lfilter}\PY{p}{(}\PY{n}{b}\PY{p}{,}\PY{n}{a}\PY{p}{,}\PY{n}{impulse}\PY{p}{)}
+    \PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{211}\PY{p}{)}
+    \PY{n}{stem}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{response}\PY{p}{)}
+    \PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n (samples)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Impulse response}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{212}\PY{p}{)}
+    \PY{n}{step} \PY{o}{=} \PY{n}{cumsum}\PY{p}{(}\PY{n}{response}\PY{p}{)}
+    \PY{n}{stem}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{step}\PY{p}{)}
+    \PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{n (samples)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{title}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Step response}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{hspace}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\end{Verbatim}
+
+
+\subsection{Lowpass FIR filter}
+
+Designing a lowpass FIR filter is very simple to do with SciPy, all you
+need to do is to define the window length, cut off frequency and the
+window.
+
+The Hamming window is defined as:
+$w(n) = \alpha - \beta\cos\frac{2\pi n}{N-1}$, where $\alpha=0.54$ and
+$\beta=0.46$
+
+The next code chunk is executed in term mode, see the source document
+for syntax. Notice also that Pweave can now catch multiple
+figures/code chunk.
+
+
+
+\begin{Verbatim}[commandchars=\\\{\},frame=single,fontsize=\small, xleftmargin=0.5em]
+\PY{n}{n} \PY{o}{=} \PY{l+m+mi}{61}
+\PY{n}{a} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{n}{cutoff} \PY{o}{=} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{window} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hamming}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}Frequency and phase response}
+\PY{n}{mfreqz}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+\end{Verbatim}
+\includegraphics[width= \linewidth]{figures/FIR_design_pygments_figure2_1.pdf}
+
+
+\begin{Verbatim}[commandchars=\\\{\},frame=single,fontsize=\small, xleftmargin=0.5em]
+\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}Impulse and step response}
+\PY{n}{figure}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},frame=leftline,fontsize=\small, xleftmargin=0.5em]
+<matplotlib.figure.Figure at 0x7fa750299278>
+\end{Verbatim}
+
+\begin{Verbatim}[commandchars=\\\{\},frame=leftline,fontsize=\small, xleftmargin=0.5em]
+<matplotlib.figure.Figure at 0x7fa750299278>
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\},frame=single,fontsize=\small, xleftmargin=0.5em]
+\PY{n}{impz}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+\end{Verbatim}
+\includegraphics[width= \linewidth]{figures/FIR_design_pygments_figure2_1.pdf}
+
+
+\begin{Verbatim}[commandchars=\\\{\},frame=single,fontsize=\small, xleftmargin=0.5em]
+\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\subsection{Highpass FIR Filter}
+
+Let's define a highpass FIR filter:
+
+
+
+\begin{Verbatim}[commandchars=\\\{\},frame=single,fontsize=\small, xleftmargin=0.5em]
+\PY{n}{n} \PY{o}{=} \PY{l+m+mi}{101}
+\PY{n}{a} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{n}{cutoff} \PY{o}{=} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{window} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hanning}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pass\PYZus{}zero}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+\PY{n}{mfreqz}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\includegraphics[width= \linewidth]{figures/FIR_design_pygments_figure3_1.pdf}
+
+
+\subsection{Bandpass FIR filter}
+
+Notice that the plot has a caption defined in code chunk options.
+
+
+
+
+\begin{Verbatim}[commandchars=\\\{\},frame=single,fontsize=\small, xleftmargin=0.5em]
+\PY{n}{n} \PY{o}{=} \PY{l+m+mi}{1001}
+\PY{n}{a} \PY{o}{=} \PY{n}{signal}\PY{o}{.}\PY{n}{firwin}\PY{p}{(}\PY{n}{n}\PY{p}{,} \PY{n}{cutoff} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{]}\PY{p}{,} \PY{n}{window} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blackmanharris}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{pass\PYZus{}zero} \PY{o}{=} \PY{n+nb+bp}{False}\PY{p}{)}
+\PY{n}{mfreqz}\PY{p}{(}\PY{n}{a}\PY{p}{)}
+\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\begin{figure}[htpb]
+\center
+\includegraphics[width= \linewidth]{figures/FIR_design_pygments_figure4_1.pdf}
+\caption{Bandpass FIR filter.}
+\label{fig:None}
+\end{figure}
+
+
+\end{document}

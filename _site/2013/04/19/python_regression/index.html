@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matti Pastell &raquo; Linear Regression Models with Python</title>
+
+
+    <!-- Skeleton     -->
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/css/base.css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/mpastell.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pandoc.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/bib-publication-list.css" media="screen"/>
+
+
+    <link rel="alternate" type="application/atom+xml" title="mpastell.com Articles Feed - mpastell.com" href="/feed/" />
+    <link rel="alternate" type="application/atom+xml" title="R Articles Feed - mpastell.com" href="/tag/r/feed/" />
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="Matti Pastell" />
+    <meta name="description" content="Matti Pastell's website and blog" />
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6474352-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+
+    <div class ="container">
+      <div class="sixteen columns">
+
+
+	  <div id="header">
+	    <h1><a href="http://mpastell.com"> MPASTELL.COM</a></h1>
+	  </div>
+
+	<div id="navbar">
+            <a href="/">About</a>
+	    <a href="/blog/">Blog</a>
+	    <a href="/publications/">Publications</a>
+	    <a href="/software/">Software</a>
+<!--	    <a href="/teaching/">Teaching</a>	-->
+	    <a href="/guides/">Guides</a>
+	    <a href="/links/">Links</a>
+	</div>
+
+
+
+<img src="/images/lehmat.jpg"
+     alt="Cow header" class="scale-with-grid"/>
+
+<div id="main">
+      <h1>Linear Regression Models with Python</h1>
+      <hr/>
+
+      <p><b>Author:</b> Matti Pastell<br/>
+<b>Tags:</b>
+<a href = "/tag/python/">Python</a>, <a href = "/tag/pweave/">Pweave</a>
+<br/>
+Apr 19 2013</p>
+
+<p>I have been looking into using Python for basic statistical analyses lately and I decided to write a short example about fitting linear regression models using <a href="http://statsmodels.sourceforge.net/devel/generated/statsmodels.stats.outliers_influence.OLSInfluence.html">statsmodels</a>-library.</p>
+<h1>
+Requirements
+</h1>
+<p>
+This example uses <a href="http://statsmodels.sourceforge.net/devel/">statsmodels</a> version 0.5 from github and we’ll use the new formula API which makes fitting the models very familiar for R users. You’ll also need <a href="http://www.numpy.org/">Numpy</a>, <a href="http://pandas.pydata.org/">Pandas</a> and <a href="http://matplotlib.org/">matplolib</a>.
+</p>
+<p>
+<p>The analysis has been published using <a href="http://mpastell.com/pweave/">Pweave development version</a>. See my <a href="/2013/04/19/publish_python_scripts/">other post</a>.</p>
+<p>
+Import libraries
+</p>
+<div class="highlight">
+<pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+</pre>
+</div>
+<p>
+We’ll use <a href="http://stat.ethz.ch/R-manual/R-patched/library/MASS/html/whiteside.html">whiteside</a> dataset from R package MASS. You can read the description of the dataset from the link, but in short it contains:
+</p>
+<blockquote>
+<p>
+<em>The weekly gas consumption and average external temperature at a house in south-east England for two heating seasons, one of 26 weeks before, and one of 30 weeks after cavity-wall insulation was installed.</em>
+</p>
+</blockquote>
+<p>
+Read the data from <a href="https://github.com/cpcloud/pydatasets">pydatasets repo</a> using Pandas:
+</p>
+<div class="highlight">
+<pre><span class="n">url</span> <span class="o">=</span> <span class="s">&#39;https://raw.github.com/cpcloud/pydatasets/master/datasets/MASS/whiteside.csv&#39;</span>
+<span class="n">whiteside</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre>
+</div>
+<h1>
+Fitting the model
+</h1>
+<p>
+Let’s see what the relationship between the gas consumption is before the insulation. See <a href="http://statsmodels.sourceforge.net/devel/example_formulas.html">statsmodels documentation</a> for more information about the syntax.
+</p>
+<div class="highlight">
+<pre><span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">&#39;Gas ~ Temp&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">whiteside</span><span class="p">,</span> <span class="n">subset</span> <span class="o">=</span> <span class="n">whiteside</span><span class="p">[</span><span class="s">&#39;Insul&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&quot;Before&quot;</span><span class="p">)</span>
+<span class="n">fitted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">fitted</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre>
+</div>
+<div class="highlight">
+<pre>                            <span class="n">OLS</span> <span class="n">Regression</span> <span class="n">Results</span>
+<span class="o">==============================================================================</span>
+<span class="n">Dep</span><span class="o">.</span> <span class="n">Variable</span><span class="p">:</span>                    <span class="n">Gas</span>   <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span>                       <span class="mf">0.944</span>
+<span class="n">Model</span><span class="p">:</span>                            <span class="n">OLS</span>   <span class="n">Adj</span><span class="o">.</span> <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span>                  <span class="mf">0.941</span>
+<span class="n">Method</span><span class="p">:</span>                 <span class="n">Least</span> <span class="n">Squares</span>   <span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">:</span>                     <span class="mf">403.1</span>
+<span class="n">Date</span><span class="p">:</span>                <span class="n">Fri</span><span class="p">,</span> <span class="mi">19</span> <span class="n">Apr</span> <span class="mi">2013</span>   <span class="n">Prob</span> <span class="p">(</span><span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">):</span>           <span class="mf">1.64e-16</span>
+<span class="n">Time</span><span class="p">:</span>                        <span class="mi">16</span><span class="p">:</span><span class="mo">07</span><span class="p">:</span><span class="mi">56</span>   <span class="n">Log</span><span class="o">-</span><span class="n">Likelihood</span><span class="p">:</span>                <span class="o">-</span><span class="mf">2.8783</span>
+<span class="n">No</span><span class="o">.</span> <span class="n">Observations</span><span class="p">:</span>                  <span class="mi">26</span>   <span class="n">AIC</span><span class="p">:</span>                             <span class="mf">9.757</span>
+<span class="n">Df</span> <span class="n">Residuals</span><span class="p">:</span>                      <span class="mi">24</span>   <span class="n">BIC</span><span class="p">:</span>                             <span class="mf">12.27</span>
+<span class="n">Df</span> <span class="n">Model</span><span class="p">:</span>                           <span class="mi">1</span>
+<span class="o">==============================================================================</span>
+                 <span class="n">coef</span>    <span class="n">std</span> <span class="n">err</span>          <span class="n">t</span>      <span class="n">P</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span>      <span class="p">[</span><span class="mf">95.0</span><span class="o">%</span> <span class="n">Conf</span><span class="o">.</span> <span class="n">Int</span><span class="o">.</span><span class="p">]</span>
+<span class="o">------------------------------------------------------------------------------</span>
+<span class="n">Intercept</span>      <span class="mf">6.8538</span>      <span class="mf">0.118</span>     <span class="mf">57.876</span>      <span class="mf">0.000</span>         <span class="mf">6.609</span>     <span class="mf">7.098</span>
+<span class="n">Temp</span>          <span class="o">-</span><span class="mf">0.3932</span>      <span class="mf">0.020</span>    <span class="o">-</span><span class="mf">20.078</span>      <span class="mf">0.000</span>        <span class="o">-</span><span class="mf">0.434</span>    <span class="o">-</span><span class="mf">0.353</span>
+<span class="o">==============================================================================</span>
+<span class="n">Omnibus</span><span class="p">:</span>                        <span class="mf">0.296</span>   <span class="n">Durbin</span><span class="o">-</span><span class="n">Watson</span><span class="p">:</span>                   <span class="mf">2.420</span>
+<span class="n">Prob</span><span class="p">(</span><span class="n">Omnibus</span><span class="p">):</span>                  <span class="mf">0.862</span>   <span class="n">Jarque</span><span class="o">-</span><span class="n">Bera</span> <span class="p">(</span><span class="n">JB</span><span class="p">):</span>                <span class="mf">0.164</span>
+<span class="n">Skew</span><span class="p">:</span>                          <span class="o">-</span><span class="mf">0.177</span>   <span class="n">Prob</span><span class="p">(</span><span class="n">JB</span><span class="p">):</span>                        <span class="mf">0.921</span>
+<span class="n">Kurtosis</span><span class="p">:</span>                       <span class="mf">2.839</span>   <span class="n">Cond</span><span class="o">.</span> <span class="n">No</span><span class="o">.</span>                         <span class="mf">13.3</span>
+<span class="o">==============================================================================</span>
+</pre>
+</div>
+<h1>
+Plot the data and fit
+</h1>
+<div class="highlight">
+<pre><span class="n">Before</span> <span class="o">=</span> <span class="n">whiteside</span><span class="p">[</span><span class="n">whiteside</span><span class="p">[</span><span class="s">&quot;Insul&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;Before&quot;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Before</span><span class="p">[</span><span class="s">&quot;Temp&quot;</span><span class="p">],</span> <span class="n">Before</span><span class="p">[</span><span class="s">&quot;Gas&quot;</span><span class="p">],</span> <span class="s">&#39;ro&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Before</span><span class="p">[</span><span class="s">&quot;Temp&quot;</span><span class="p">],</span> <span class="n">fitted</span><span class="o">.</span><span class="n">fittedvalues</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s">&#39;Data&#39;</span><span class="p">,</span> <span class="s">&#39;Fitted model&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Temperature&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Gas&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Before Insulation&#39;</span><span class="p">)</span>
+</pre>
+</div>
+<p>
+<img src="figures/regression_whiteside_figure4_1.png" width="600"/>
+</p>
+<h1>
+Fit diagnostiscs
+</h1>
+<p>
+Statsmodels <a href="http://statsmodels.sourceforge.net/devel/generated/statsmodels.regression.linear_model.OLSResults.html">OLSresults</a> objects contain the usual diagnostic information about the model and you can use the <code>get_influence()</code> method to get more diagnostic information (such as Cook’s distance).
+</p>
+<h2>
+A look at the residuals
+</h2>
+<p>
+Histogram of normalized residuals
+</p>
+<div class="highlight">
+<pre><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">fitted</span><span class="o">.</span><span class="n">norm_resid</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Normalized residuals&#39;</span><span class="p">)</span>
+</pre>
+</div>
+<p>
+<img src="figures/regression_whiteside_figure5_1.png" width="600"/>
+</p>
+<h2>
+Cooks distance
+</h2>
+<p>
+<a href="http://statsmodels.sourceforge.net/devel/generated/statsmodels.stats.outliers_influence.OLSInfluence.html">OLSInfluence</a> objects contain more diagnostic information
+</p>
+<div class="highlight">
+<pre><span class="n">influence</span> <span class="o">=</span> <span class="n">fitted</span><span class="o">.</span><span class="n">get_influence</span><span class="p">()</span>
+<span class="c">#c is the distance and p is p-value</span>
+<span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="o">=</span> <span class="n">influence</span><span class="o">.</span><span class="n">cooks_distance</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)),</span> <span class="n">c</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
+</pre>
+</div>
+<p>
+<img src="figures/regression_whiteside_figure6_1.png" width="600"/>
+</p>
+<h1>
+Statsmodels builtin plots
+</h1>
+<p>
+Statsmodels includes a some builtin function for plotting residuals against leverage:
+</p>
+<div class="highlight">
+<pre><span class="kn">from</span> <span class="nn">statsmodels.graphics.regressionplots</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">plot_leverage_resid2</span><span class="p">(</span><span class="n">fitted</span><span class="p">)</span>
+<span class="n">influence_plot</span><span class="p">(</span><span class="n">fitted</span><span class="p">)</span>
+</pre>
+</div>
+<p>
+<img src="figures/regression_whiteside_figure7_1.png" width="600"/> <img src="figures/regression_whiteside_figure7_2.png" width="600"/>
+</p>
+
+
+
+<div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'mpastell'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      <BR class = "clear"/>
+      <div id="footer">
+	<hr/>
+	&copy; Matti Pastell 2011- . Site built using <a href="http://nanoc.stoneship.org/">nanoc</a> and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a></div>
+	</div>
+
+      </div>
+    </div>
+
+  </body>
+  </html>

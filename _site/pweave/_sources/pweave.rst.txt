@@ -1,0 +1,194 @@
+
+=====================
+ Using pweave module
+=====================
+
+.. currentmodule:: pweave
+
+Pweave can also be used as module from the Python interpreter. This
+has some advantages over just using the scripts. First the execution
+of the code will be faster because all modules all already
+imported. It is also possible to fully
+customize the document execution and formatting using the :py:class:`Pweb` class.
+
+pweave module contains two functions :py:func:`weave` and
+:py:func:`tangle` that offer the same functionality as the command
+line scripts.
+
+Simple weaving and tangling:
+============================
+
+Here's and example of simple weaving and tangling using example
+document `ma.mdw <_static/ma.mdw>`_. Notice that pweave prints out the
+progress so in case of an error you can tell in which chunk it
+occurred.
+
+
+.. code-block:: python
+
+    import pweave
+    # Weave a pandoc document with default options
+    pweave.weave('ma.mdw', doctype = "pandoc")
+
+
+::
+
+    ---------------------------------------------------------------------------FileNotFoundError
+    Traceback (most recent call last)~/anaconda3/lib/python3.6/site-
+    packages/pweave/readers.py in read_file_or_url(source)
+         15     try:
+    ---> 16         codefile = io.open(source, 'r', encoding='utf-8')
+         17         contents = codefile.read()
+    FileNotFoundError: [Errno 2] No such file or directory: 'ma.mdw'
+    During handling of the above exception, another exception occurred:
+    ValueError                                Traceback (most recent call
+    last)<ipython-input-1-00fa7e3b1899> in <module>()
+          1 import pweave
+          2 # Weave a pandoc document with default options
+    ----> 3 pweave.weave('ma.mdw', doctype = "pandoc")
+    ~/anaconda3/lib/python3.6/site-packages/pweave/__init__.py in
+    weave(file, doctype, informat, kernel, plot, docmode, cache, figdir,
+    cachedir, figformat, listformats, output, mimetype)
+         49     doc = Pweb(file, informat=informat, doctype=doctype,
+         50                kernel=kernel, output=output, figdir=figdir,
+    ---> 51                mimetype=mimetype
+         52                )
+         53     doc.documentationmode = docmode
+    ~/anaconda3/lib/python3.6/site-packages/pweave/pweb.py in
+    __init__(self, source, doctype, informat, kernel, output, figdir,
+    mimetype)
+         68
+         69         self.setformat(doctype)
+    ---> 70         self.read(reader = informat)
+         71
+         72     def _setwd(self):
+    ~/anaconda3/lib/python3.6/site-packages/pweave/pweb.py in read(self,
+    string, basename, reader)
+        106
+        107         if string is None:
+    --> 108             self.reader = Reader(file=self.source)
+        109         else:
+        110             self.reader = self.Reader(string=string)
+    ~/anaconda3/lib/python3.6/site-packages/pweave/readers.py in
+    __init__(self, file, string)
+         36         # Get input from string or
+         37         if file is not None:
+    ---> 38             self.rawtext = read_file_or_url(self.source)
+         39         else:
+         40             self.rawtext = string
+    ~/anaconda3/lib/python3.6/site-packages/pweave/readers.py in
+    read_file_or_url(source)
+         18         codefile.close()
+         19     except IOError:
+    ---> 20         r = request.urlopen(source)
+         21         contents = r.read().decode("utf-8")
+         22         r.close()
+    ~/anaconda3/lib/python3.6/urllib/request.py in urlopen(url, data,
+    timeout, cafile, capath, cadefault, context)
+        221     else:
+        222         opener = _opener
+    --> 223     return opener.open(url, data, timeout)
+        224
+        225 def install_opener(opener):
+    ~/anaconda3/lib/python3.6/urllib/request.py in open(self, fullurl,
+    data, timeout)
+        509         # accept a URL or a Request object
+        510         if isinstance(fullurl, str):
+    --> 511             req = Request(fullurl, data)
+        512         else:
+        513             req = fullurl
+    ~/anaconda3/lib/python3.6/urllib/request.py in __init__(self, url,
+    data, headers, origin_req_host, unverifiable, method)
+        327                  origin_req_host=None, unverifiable=False,
+        328                  method=None):
+    --> 329         self.full_url = url
+        330         self.headers = {}
+        331         self.unredirected_hdrs = {}
+    ~/anaconda3/lib/python3.6/urllib/request.py in full_url(self, url)
+        353         self._full_url = unwrap(url)
+        354         self._full_url, self.fragment =
+    splittag(self._full_url)
+    --> 355         self._parse()
+        356
+        357     @full_url.deleter
+    ~/anaconda3/lib/python3.6/urllib/request.py in _parse(self)
+        382         self.type, rest = splittype(self._full_url)
+        383         if self.type is None:
+    --> 384             raise ValueError("unknown url type: %r" %
+    self.full_url)
+        385         self.host, self.selector = splithost(rest)
+        386         if self.host:
+    ValueError: unknown url type: 'ma.mdw'
+    
+
+
+
+
+.. code-block:: python
+
+    # Extract the code
+    pweave.tangle('ma.mdw')
+
+
+::
+
+    ---------------------------------------------------------------------------AttributeError
+    Traceback (most recent call last)<ipython-input-1-d41c1a734f25> in
+    <module>()
+          1 # Extract the code
+    ----> 2 pweave.tangle('ma.mdw')
+    ~/anaconda3/lib/python3.6/site-packages/pweave/__init__.py in
+    tangle(file, informat)
+         64     :param file: ``string`` the pweave document containing the
+    code
+         65     """
+    ---> 66     doc = Pweb(file, kernel = None, informat = informat)
+         67     doc.tangle()
+         68
+    ~/anaconda3/lib/python3.6/site-packages/pweave/pweb.py in
+    __init__(self, source, doctype, informat, kernel, output, figdir,
+    mimetype)
+         67         self.theme = "skeleton"
+         68
+    ---> 69         self.setformat(doctype)
+         70         self.read(reader = informat)
+         71
+    ~/anaconda3/lib/python3.6/site-packages/pweave/pweb.py in
+    setformat(self, doctype, Formatter)
+        148
+        149         self.formatter = Formatter([],
+    --> 150                                    kernel = self.kernel,
+        151                                    language = self.language,
+        152                                    mimetype =
+    self.mimetype.type,
+    AttributeError: 'Pweb' object has no attribute 'kernel'
+    
+
+
+
+Pweave function reference
+--------------------------
+
+.. autofunction:: pweave.weave
+
+.. autofunction:: pweave.tangle
+
+.. autofunction:: pweave.publish
+
+.. autofunction:: pweave.convert
+
+.. autofunction:: pweave.spin
+
+
+More options with Pweb Class
+============================
+
+Weaving, tangling and pweave options are implemented using
+:py:class:`Pweb` class. There is an `example <customizing.html>`_
+about customizations and the class reference is below.
+
+Pweb Class
+----------
+
+.. autoclass:: pweave.Pweb
+   :members:

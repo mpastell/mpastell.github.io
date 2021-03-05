@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pweave - Scientific Reports Using Python &mdash; Pweave v0.25 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Pweave v0.25 documentation" href="#"/>
+        <link rel="next" title="Pweave Basics" href="usage.html"/>
+        <link rel="prev" title="Welcome to Pweave’s documentation!" href="docs.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pweave - Scientific Reports Using Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-and-quickstart">Install and quickstart:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#thanks">Thanks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Pweave Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chunks.html">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pweave.html">Using pweave module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Pweave example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="editors.html">Editor support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="docs.html">Pweave documentation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="docs.html">Docs</a> &raquo;</li>
+      
+    <li>Pweave - Scientific Reports Using Python</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pweave-scientific-reports-using-python">
+<h1>Pweave - Scientific Reports Using Python<a class="headerlink" href="#pweave-scientific-reports-using-python" title="Permalink to this headline">¶</a></h1>
+<p>Pweave is a scientific report generator and a literate programming
+tool for Python. Pweave can capture the results and plots from data
+analysis and works well with NumPy, SciPy and matplotlib. It is able to run
+python code from source document and include the results and capture
+<a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> plots in the output.</p>
+<p>It can produce reST, Sphinx, Latex, HTML and markdown (pandoc and leanpub)
+output from several input formats.</p>
+<ul class="simple">
+<li>Noweb  uses <a class="reference external" href="http://www.cs.tufts.edu/~nr/noweb/">noweb</a> syntax for separating code from documentation.</li>
+<li>Markdown. Run code from markdown code blocks.</li>
+<li>Script. Python script with special markup in comments. See: <a class="reference internal" href="pypublish.html#publish"><span class="std std-ref">publishing scripts</span></a>.</li>
+</ul>
+<p>Pweave is good for creating reports, tutorials, presentations etc. with embedded python
+code It can also be used to make websites together with e.g. Sphinx or rest2web.</p>
+<p>There is now also Pweave syntax highlighting for Atom editor using
+<a class="reference external" href="https://atom.io/packages/language-weave">language-weave</a> .</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>Note: pip install of Pweave fails in Python 3</strong>. This is due to a bug in pip. You’ll
+need to use &#8220;conda&#8221;, &#8220;easy install&#8221; or download the source and run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Report bugs on <a class="reference external" href="https://github.com/mpastell/Pweave">Github</a>.
+Post your questions and comments to <a class="reference external" href="https://groups.google.com/forum/?fromgroups=#!forum/pweave">Pweave</a>
+google group.</p>
+</div>
+<div class="section" id="features">
+<h2>Features:<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Python 2.7, 3.4 and 3.5 compatibility</li>
+<li><strong>Execute python code</strong> in the chunks and <strong>capture</strong> input and output to a report.</li>
+<li><strong>Use hidden code chunks,</strong> i.e. code is executed, but not printed in the output file.</li>
+<li>Capture matplotlib graphics.</li>
+<li>Evaluate inline code in documentation chunks marked using <code class="docutils literal"><span class="pre">&lt;%</span> <span class="pre">%&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;%=</span> <span class="pre">%&gt;</span></code>.</li>
+<li>Cache all code and results from previous runs for fast report
+generation when you are only working with documentation. Inline code
+will be hidden in documentation mode.</li>
+<li>Supports reST, LaTeX, HTML or markdown for document chunks</li>
+<li>Publish reports from Python scipts. Similar to R markdown.</li>
+<li>Run from command line or interpreter.</li>
+<li>Support also for Octave and Matlab code.</li>
+</ul>
+</div>
+<div class="section" id="install-and-quickstart">
+<h2>Install and quickstart:<a class="headerlink" href="#install-and-quickstart" title="Permalink to this headline">¶</a></h2>
+<p>with pip:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">Pweave</span>
+</pre></div>
+</div>
+<p>with conda:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">mpastell</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="n">pweave</span>
+</pre></div>
+</div>
+<p>Or download the source package from <a class="reference external" href="http://pypi.python.org/pypi/Pweave">PyPi</a> and run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>After the installation you get options with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pweave --help
+$ ptangle
+</pre></div>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Browse <a class="reference external" href="docs.html">documentation</a> or go straight to an <a class="reference external" href="examples/index.html">examples</a></p>
+</div>
+<div class="section" id="thanks">
+<h2>Thanks<a class="headerlink" href="#thanks" title="Permalink to this headline">¶</a></h2>
+<p>Pweave was originally inspired by <a class="reference external" href="http://www.stat.uni-muenchen.de/~leisch/Sweave/">Sweave</a>, an excellent tool
+for R programmers. The current version has also been influenced by ideas from <a class="reference external" href="http://yihui.name/knitr/">knitr</a>
+and <a class="reference external" href="http://rmarkdown.rstudio.com/">R markdown</a>.</p>
+<p>Thanks to following people for contributing patches and ideas: Jakub Kowalski, Tamas
+Nepusz, Nicky van Foreest, Mark Edgington, Thomas Unterthiner, Matthew
+McDonald, Grant Goodyear, Aaron O&#8217;Leary, Thomas Saunders .</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="usage.html" class="btn btn-neutral float-right" title="Pweave Basics" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="docs.html" class="btn btn-neutral" title="Welcome to Pweave’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Apr 26, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pweave example gallery &mdash; Pweave v0.30 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Pweave v0.30 documentation" href="../index.html"/>
+        <link rel="next" title="Pweave links" href="../links.html"/>
+        <link rel="prev" title="Editor support" href="../editors.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.30
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Pweave - Scientific Reports Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Pweave Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../script.html">Using Pweave from Command Line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chunks.html">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pweave.html">Using pweave module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bokeh.html">Using Bokeh with Pweave</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../editors.html">Editor support</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pweave example gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-document-fir-filter-design">Basic document: FIR filter design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#markdown">Markdown</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#html-output">HTML output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#to-pandoc-markdown">To pandoc markdown</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#latex">Latex</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#latex-with-pygments-syntax-highlighting">Latex with pygments syntax highlighting:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#latex-with-verbatim-output">Latex with verbatim output:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#latex-with-minted-package-for-syntax-highlighting">Latex with Minted package for syntax highlighting:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#restructuredtext">reStructuredText</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#published-from-script">Published from script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#splitting-code-to-multiple-chunks">Splitting code to multiple chunks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#about-the-gallery">About the gallery</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../docs.html">Pweave documentation</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../docs.html">Docs</a> &raquo;</li>
+        
+      <li>Pweave example gallery</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pweave-example-gallery">
+<h1>Pweave example gallery<a class="headerlink" href="#pweave-example-gallery" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basic-document-fir-filter-design">
+<h2>Basic document: FIR filter design<a class="headerlink" href="#basic-document-fir-filter-design" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates most basic chunk options, output and
+capturing figures and it is available in several formats.</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text">Example in different formats.</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="21%" />
+<col width="33%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Format</th>
+<th class="head">Source</th>
+<th class="head">Pweaved</th>
+<th class="head">HTML</th>
+<th class="head">PDF</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>md2html</td>
+<td><a class="reference download internal" href="../_downloads/FIR_designp.pmd" download=""><code class="xref download docutils literal"><span class="pre">FIR_designp.pmd</span></code></a></td>
+<td>&#160;</td>
+<td><a class="reference download internal" href="../_downloads/FIR_designp.html" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>texpygments</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_pygments.texw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_pygments.texw</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_pygments.tex" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td>&#160;</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_pygments.pdf" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+</tr>
+<tr class="row-even"><td>tex</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_verb.texw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_verb.texw</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_verb.tex" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td>&#160;</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_verb.pdf" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>texminted</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_minted.texw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_minted.texw</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_minted.tex" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td>&#160;</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_minted.pdf" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+</tr>
+<tr class="row-even"><td>rst</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design.rstw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design.rstw</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_design.rst" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_rst.html" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>script</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design.py" download=""><code class="xref download docutils literal"><span class="pre">FIR_design.py</span></code></a></td>
+<td>&#160;</td>
+<td><a class="reference download internal" href="../_downloads/FIR_design.html" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_design.pdf" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+</tr>
+<tr class="row-even"><td>pandoc</td>
+<td><a class="reference download internal" href="../_downloads/FIR_designp.pmd" download=""><code class="xref download docutils literal"><span class="pre">FIR_designp.pmd</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_designp.md" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td><a class="reference download internal" href="../_downloads/FIR_design_pandoc.html" download=""><code class="xref download docutils literal"><span class="pre">open</span></code></a></td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p>The commands used to process the examples from command line are shown below.</p>
+<div class="section" id="markdown">
+<h3>Markdown<a class="headerlink" href="#markdown" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="html-output">
+<h4>HTML output<a class="headerlink" href="#html-output" title="Permalink to this headline">¶</a></h4>
+<p><cite>md2html</cite> and <cite>pandoc2html</cite> formats produce output that is identical
+to pypublish command.</p>
+<p><a class="reference download internal" href="../_downloads/FIR_designp.pmd" download=""><code class="xref download docutils literal"><span class="pre">FIR_designp.pmd</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_designp.html" download=""><code class="xref download docutils literal"><span class="pre">FIR_designp.html</span></code></a></p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">f</span> <span class="n">md2html</span> <span class="n">FIR_designp</span><span class="o">.</span><span class="n">pmd</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-pandoc-markdown">
+<h4>To pandoc markdown<a class="headerlink" href="#to-pandoc-markdown" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference download internal" href="../_downloads/FIR_designp.pmd" download=""><code class="xref download docutils literal"><span class="pre">FIR_designp.pmd</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_designp.md" download=""><code class="xref download docutils literal"><span class="pre">FIR_designp.md</span></code></a> , <a class="reference download internal" href="../_downloads/FIR_design_pandoc.html" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_pandoc.html</span></code></a></p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">f</span> <span class="n">pandoc</span> <span class="n">FIR_designp</span><span class="o">.</span><span class="n">pmd</span>
+<span class="n">pandoc</span> <span class="o">-</span><span class="n">s</span> <span class="o">--</span><span class="n">mathjax</span> <span class="n">FIR_designp</span><span class="o">.</span><span class="n">md</span> <span class="o">-</span><span class="n">o</span> <span class="n">FIR_design_pandoc</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="latex">
+<h3>Latex<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h3>
+<p>Pweave has several options for LaTeX output, here is a demonstation of differences:</p>
+<div class="section" id="latex-with-pygments-syntax-highlighting">
+<h4>Latex with pygments syntax highlighting:<a class="headerlink" href="#latex-with-pygments-syntax-highlighting" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference download internal" href="../_downloads/FIR_design_pygments.texw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_pygments.texw</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design_pygments.tex" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_pygments.tex</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design_pygments.pdf" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_pygments.pdf</span></code></a>
+and with IPython shell <a class="reference download internal" href="../_downloads/FIR_design_pygments_ipy.pdf" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_pygments_ipy.pdf</span></code></a>.</p>
+<p>Notice that the first command creates the needed <a class="reference download internal" href="../_downloads/pygments.sty" download=""><code class="xref download docutils literal"><span class="pre">pygments.sty</span></code></a>.
+See <a class="reference external" href="http://pygments.org/docs/cmdline/#generating-styles">pygments docs</a> for more info.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pygmentize</span> <span class="o">-</span><span class="n">f</span> <span class="n">tex</span> <span class="o">-</span><span class="n">S</span> <span class="n">default</span> <span class="o">&gt;</span> <span class="n">pygments</span><span class="o">.</span><span class="n">sty</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">f</span> <span class="n">texpygments</span> <span class="n">FIR_design_pygments</span><span class="o">.</span><span class="n">texw</span>
+<span class="n">pdflatex</span> <span class="n">FIR_design_pygments</span><span class="o">.</span><span class="n">tex</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">s</span> <span class="n">ipython</span> <span class="o">-</span><span class="n">f</span> <span class="n">texpygments</span> <span class="n">FIR_design_pygments</span><span class="o">.</span><span class="n">texw</span>
+<span class="n">cp</span> <span class="n">FIR_design_pygments</span><span class="o">.</span><span class="n">tex</span> <span class="n">FIR_design_pygments_ipy</span><span class="o">.</span><span class="n">tex</span>
+<span class="n">pdflatex</span> <span class="n">FIR_design_pygments_ipy</span><span class="o">.</span><span class="n">tex</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="latex-with-verbatim-output">
+<h4>Latex with verbatim output:<a class="headerlink" href="#latex-with-verbatim-output" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference download internal" href="../_downloads/FIR_design_verb.texw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_verb.texw</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design_verb.tex" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_verb.tex</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design_verb.pdf" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_verb.pdf</span></code></a>.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">f</span> <span class="n">tex</span> <span class="n">FIR_design_verb</span><span class="o">.</span><span class="n">texw</span>
+<span class="n">pdflatex</span> <span class="n">FIR_design_verb</span><span class="o">.</span><span class="n">tex</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="latex-with-minted-package-for-syntax-highlighting">
+<h4>Latex with Minted package for syntax highlighting:<a class="headerlink" href="#latex-with-minted-package-for-syntax-highlighting" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference download internal" href="../_downloads/FIR_design_minted.texw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_minted.texw</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design_minted.tex" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_minted.tex</span></code></a> , <a class="reference download internal" href="../_downloads/FIR_design_minted.pdf" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_minted.pdf</span></code></a> .</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">f</span> <span class="n">texminted</span> <span class="n">FIR_design_minted</span><span class="o">.</span><span class="n">texw</span>
+<span class="n">pdflatex</span> <span class="o">-</span><span class="n">shell</span><span class="o">-</span><span class="n">escape</span> <span class="n">FIR_design_minted</span><span class="o">.</span><span class="n">tex</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Using pygments directly from Pweave is much faster than
+using Minted separately.</p>
+</div>
+</div>
+</div>
+<div class="section" id="restructuredtext">
+<h3>reStructuredText<a class="headerlink" href="#restructuredtext" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference download internal" href="../_downloads/FIR_design.rstw" download=""><code class="xref download docutils literal"><span class="pre">FIR_design.rstw</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design.rst" download=""><code class="xref download docutils literal"><span class="pre">FIR_design.rst</span></code></a> , <a class="reference download internal" href="../_downloads/FIR_design_rst.html" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_rst.html</span></code></a>.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pweave</span> <span class="n">FIR_design</span><span class="o">.</span><span class="n">rstw</span>
+<span class="n">rst2html</span><span class="o">.</span><span class="n">py</span> <span class="n">FIR_design</span><span class="o">.</span><span class="n">rst</span> <span class="n">FIR_design_rst</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="published-from-script">
+<h3>Published from script<a class="headerlink" href="#published-from-script" title="Permalink to this headline">¶</a></h3>
+<p>You can publish documents directly using the <cite>pypublish</cite> command.</p>
+<p>Using doxygen mark up:</p>
+<p><a class="reference download internal" href="../_downloads/FIR_design.py" download=""><code class="xref download docutils literal"><span class="pre">FIR_design.py</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design.html" download=""><code class="xref download docutils literal"><span class="pre">FIR_design.html</span></code></a> , <a class="reference download internal" href="../_downloads/FIR_design.pdf" download=""><code class="xref download docutils literal"><span class="pre">FIR_design.pdf</span></code></a> .</p>
+<p>Using cell mark up:</p>
+<p><a class="reference download internal" href="../_downloads/FIR_design.py" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_cells.py</span></code></a>, <a class="reference download internal" href="../_downloads/FIR_design_cells.html" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_cells.html</span></code></a> , <a class="reference download internal" href="../_downloads/FIR_design_cells.pdf" download=""><code class="xref download docutils literal"><span class="pre">FIR_design_cells.pdf</span></code></a> .</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pypublish</span> <span class="n">FIR_design</span><span class="o">.</span><span class="n">py</span>
+<span class="n">pypublish</span> <span class="n">FIR_design_cells</span><span class="o">.</span><span class="n">py</span>
+<span class="n">pypublish</span> <span class="o">-</span><span class="n">f</span> <span class="n">pdf</span> <span class="n">FIR_design</span><span class="o">.</span><span class="n">py</span>
+<span class="n">pypublish</span> <span class="o">-</span><span class="n">f</span> <span class="n">pdf</span> <span class="n">FIR_design_cells</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="splitting-code-to-multiple-chunks">
+<span id="multi-chunk-example"></span><h2>Splitting code to multiple chunks<a class="headerlink" href="#splitting-code-to-multiple-chunks" title="Permalink to this headline">¶</a></h2>
+<p>This example shows how to split code between multiple chunks to write
+documentation within a class using <cite>complete</cite> chunk option.</p>
+<p><a class="reference download internal" href="../_downloads/AR_yw.mdw" download=""><code class="xref download docutils literal"><span class="pre">AR_yw.mdw</span></code></a> , <a class="reference download internal" href="../_downloads/AR_yw.html" download=""><code class="xref download docutils literal"><span class="pre">AR_yw.html</span></code></a> , <a class="reference download internal" href="../_downloads/AR_yw.pdf" download=""><code class="xref download docutils literal"><span class="pre">AR_yw.pdf</span></code></a> .</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">f</span> <span class="n">md2html</span> <span class="n">AR_yw</span><span class="o">.</span><span class="n">mdw</span>
+<span class="n">pweave</span> <span class="o">-</span><span class="n">f</span> <span class="n">pandoc2latex</span> <span class="n">AR_yw</span><span class="o">.</span><span class="n">mdw</span>
+<span class="n">pdflatex</span> <span class="n">AR_yw</span><span class="o">.</span><span class="n">tex</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
+<p>Linear regression with Statsmodels: <a class="reference download internal" href="../_downloads/linear_regression.py" download=""><code class="xref download docutils literal"><span class="pre">linear_regression.py</span></code></a>, <a class="reference download internal" href="../_downloads/linear_regression.html" download=""><code class="xref download docutils literal"><span class="pre">linear_regression.html</span></code></a></p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="n">pypublish</span> <span class="n">linear_regression</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="about-the-gallery">
+<h2>About the gallery<a class="headerlink" href="#about-the-gallery" title="Permalink to this headline">¶</a></h2>
+<p>This page is an executable document that be run using Pweave using
+IPython shell to run all examples using:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pweave</span> <span class="n">index</span><span class="o">.</span><span class="n">rstw</span>
+</pre></div>
+</div>
+<p>The latest version of the examples with any required extra files are
+available from the <a class="reference external" href="http://github.com/mpastell/pweave-docs/">Git</a>
+repository in examples directory.</p>
+<p>This gallery was created using:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pweave</span>
+<span class="n">pweave</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="s1">&#39;0.30&#39;</span>
+</pre></div>
+</div>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="mf">3.6</span><span class="o">.</span><span class="mi">2</span> <span class="o">|</span><span class="n">Anaconda</span> <span class="n">custom</span> <span class="p">(</span><span class="mi">64</span><span class="o">-</span><span class="n">bit</span><span class="p">)</span><span class="o">|</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Jul</span> <span class="mi">20</span> <span class="mi">2017</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">32</span><span class="p">)</span>
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">4.4</span><span class="o">.</span><span class="mi">7</span> <span class="mi">20120313</span> <span class="p">(</span><span class="n">Red</span> <span class="n">Hat</span> <span class="mf">4.4</span><span class="o">.</span><span class="mi">7</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../links.html" class="btn btn-neutral float-right" title="Pweave links" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../editors.html" class="btn btn-neutral" title="Editor support" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Sep 10, 2017.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.30',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

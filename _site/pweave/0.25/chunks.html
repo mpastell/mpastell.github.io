@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Code Chunk Options &mdash; Pweave v0.25 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Pweave v0.25 documentation" href="index.html"/>
+        <link rel="next" title="Changing defaults" href="defaults.html"/>
+        <link rel="prev" title="Pweave Basics" href="usage.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="docs.html" class="icon icon-home"> Pweave documentation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Pweave - Scientific Reports Using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Pweave Basics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code Chunk Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defaults.html">Changing defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats.html">Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pweave.html">Using pweave module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypublish.html">Publishing scipts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customizing.html">Customizing output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="subclassing.html">Subclassing formatters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Pweave example gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="editors.html">Editor support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="links.html">Pweave links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="docs.html">Pweave documentation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="docs.html">Docs</a> &raquo;</li>
+      
+    <li>Code Chunk Options</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/chunks.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="code-chunk-options">
+<h1>Code Chunk Options<a class="headerlink" href="#code-chunk-options" title="Permalink to this headline">¶</a></h1>
+<p>Pweave currently has the following options for processing the code
+chunks.</p>
+<dl class="envvar">
+<dt id="envvar-name,label">
+<code class="descname">name, label</code><a class="headerlink" href="#envvar-name,label" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the first option of chunk is unnamed it will become the chunk
+name, you can also set the chunk name using the name or label (<em>for
+Sweave compatibility</em>) keys. All of these definitions are equal
+<code class="docutils literal"><span class="pre">&lt;&lt;analysis,</span> <span class="pre">Fig</span> <span class="pre">=</span> <span class="pre">True&gt;&gt;=</span></code>,  <code class="docutils literal"><span class="pre">&lt;&lt;Fig</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">name</span> <span class="pre">=</span>
+<span class="pre">'analysis'&gt;&gt;=</span></code>,  <code class="docutils literal"><span class="pre">&lt;&lt;Fig</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">label</span> <span class="pre">=</span> <span class="pre">'analysis'&gt;&gt;=</span></code>. Chunk
+names are used for figure names, but expanding named chunks in the
+Pweave todo list.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.2.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-echo=Trueor(False)">
+<code class="descname">echo = True or (False)</code><a class="headerlink" href="#envvar-echo=Trueor(False)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Echo the python code in the output document. If False the source
+code will be hidden.</p>
+</dd></dl>
+
+<dl class="envvar">
+<dt id="envvar-evaluate=Trueor(False).">
+<code class="descname">evaluate = True or (False).</code><a class="headerlink" href="#envvar-evaluate=Trueor(False)." title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the code chunk. If False the chunk won&#8217;t be executed.</p>
+</dd></dl>
+
+<dl class="envvar">
+<dt id="envvar-results='verbatim'">
+<code class="descname">results = 'verbatim'</code><a class="headerlink" href="#envvar-results='verbatim'" title="Permalink to this definition">¶</a></dt>
+<dd><p>The output format of the printed results. &#8216;verbatim&#8217; for literal
+block, &#8216;hidden&#8217; for hidden results or anything other string for raw
+output (I tend to use &#8216;tex&#8217; for Latex and &#8216;rst&#8217; for rest. Raw output
+is useful if you wan&#8217;t to e.g. create tables from code chunks.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.12.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-term=Falseor(True)">
+<code class="descname">term = False or (True)</code><a class="headerlink" href="#envvar-term=Falseor(True)" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True the output emulates a terminal session i.e. the code chunk
+and the output will be printed as a <a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#doctest-blocks">doctest block</a>. Can
+also be used in latex documents, where the output will formatted as
+verbatim.</p>
+</dd></dl>
+
+<dl class="envvar">
+<dt id="envvar-include=Trueor(False)">
+<code class="descname">include = True or (False)</code><a class="headerlink" href="#envvar-include=Trueor(False)" title="Permalink to this definition">¶</a></dt>
+<dd><p>If include is True generated figures are automatically included in
+the document otherwise figures are generated, but not
+included. This is useful if you want more control over figure
+formatting e.g. use subfigures in Latex.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.21.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-fig=Trueor(False)">
+<code class="descname">fig = True or (False)</code><a class="headerlink" href="#envvar-fig=Trueor(False)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether a matplotlib plot produced by the code chunk should be
+included in the file. The figure will be added with &#8216;.. image::&#8217;
+directive in .rst and \includegraphics tag in .tex documents. See
+the &#8216;caption&#8217; option if you want to use figure environment. As of
+version 0.21 Pweave supports multiple figures per code chunk.</p>
+</dd></dl>
+
+<dl class="envvar">
+<dt id="envvar-caption=''">
+<code class="descname">caption = ''</code><a class="headerlink" href="#envvar-caption=''" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string providing a caption for the figure produced in the code
+chunk. Can only be used with &#8216;fig = True&#8217; option.</p>
+</dd></dl>
+
+<dl class="envvar">
+<dt id="envvar-width">
+<code class="descname">width</code><a class="headerlink" href="#envvar-width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the created figure in the document (using format specific
+markup e.g. &#8220;12cm&#8221;, &#8220;600px&#8221;, &#8220;linewidth&#8221;). The default width depends on the output format.</p>
+</dd></dl>
+
+<dl class="envvar">
+<dt id="envvar-f_size=(8,6)">
+<code class="descname">f_size = (8,6)</code><a class="headerlink" href="#envvar-f_size=(8,6)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saved matplotlib figure size in inches a tuple (w, h).</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.22.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-f_spines=True">
+<code class="descname">f_spines = True</code><a class="headerlink" href="#envvar-f_spines=True" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes spines from matplotlib figures right and top if False.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.22.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-f_env">
+<code class="descname">f_env</code><a class="headerlink" href="#envvar-f_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add environment that goes around figures in LaTex output e.g. sidefigure</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.22.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-f_pos=&quot;htpb&quot;">
+<code class="descname">f_pos = &quot;htpb&quot;</code><a class="headerlink" href="#envvar-f_pos="htpb"" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the figure position for latex figures.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.21.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-wrap=Trueor(False,&quot;code&quot;,&quot;results&quot;)">
+<code class="descname">wrap = True or (False,&quot;code&quot;, &quot;results&quot;)</code><a class="headerlink" href="#envvar-wrap=Trueor(False,"code","results")" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls wrapping of long lines. If True both code and output are
+wrapped to 75 characters. You can also specify &#8220;code&#8221; or &#8220;results&#8221; options to
+wrap only input or output.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.21.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-complete=True">
+<code class="descname">complete = True</code><a class="headerlink" href="#envvar-complete=True" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to include code spanning multiple chunks before it get executed. Useful for e.g. documenting class definitions. Use complete = False all but the last chunk and set the last one as complete = True. Pweave executes all of the chunks together and includes the results after the last one. See:  <a class="reference internal" href="examples/index.html#multi-chunk-example"><span class="std std-ref">Splitting code to multiple chunks</span></a> example.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.22.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-source">
+<code class="descname">source</code><a class="headerlink" href="#envvar-source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read chunk contents from file or python module or file. e.g. source = &#8220;mychunk.py&#8221;.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.22.</span></p>
+</div>
+<dl class="envvar">
+<dt id="envvar-engine">
+<code class="descname">engine</code><a class="headerlink" href="#envvar-engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choose engine running the code. “python” or “shell”. If &#8220;shell&#8221; code will
+be run line by line using <cite>subprocess.Open</cite>.</p>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.22.</span></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="defaults.html" class="btn btn-neutral float-right" title="Changing defaults" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="usage.html" class="btn btn-neutral" title="Pweave Basics" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Matti Pastell. 2010 - 2016.
+      Last updated on Apr 21, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-6474352-5");
+      pageTracker._trackPageview();
+      } catch(err) {}</script>
+</div>
+
+
+</body>
+</html>

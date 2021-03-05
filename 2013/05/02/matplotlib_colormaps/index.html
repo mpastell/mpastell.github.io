@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matti Pastell &raquo; Matplotlib colormaps with a surface plot</title>
+
+
+    <!-- Skeleton     -->
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/css/base.css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/mpastell.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pandoc.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/bib-publication-list.css" media="screen"/>
+
+
+    <link rel="alternate" type="application/atom+xml" title="mpastell.com Articles Feed - mpastell.com" href="/feed/" />
+    <link rel="alternate" type="application/atom+xml" title="R Articles Feed - mpastell.com" href="/tag/r/feed/" />
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="Matti Pastell" />
+    <meta name="description" content="Matti Pastell's website and blog" />
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6474352-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+
+    <div class ="container">
+      <div class="sixteen columns">
+
+
+	  <div id="header">
+	    <h1><a href="http://mpastell.com"> MPASTELL.COM</a></h1>
+	  </div>
+
+	<div id="navbar">
+            <a href="/">About</a>
+	    <a href="/blog/">Blog</a>
+	    <a href="/publications/">Publications</a>
+	    <a href="/software/">Software</a>
+<!--	    <a href="/teaching/">Teaching</a>	-->
+	    <a href="/guides/">Guides</a>
+	    <a href="/links/">Links</a>
+	</div>
+
+
+
+<img src="/images/lehmat.jpg"
+     alt="Cow header" class="scale-with-grid"/>
+
+<div id="main">
+      <h1>Matplotlib colormaps with a surface plot</h1>
+      <hr/>
+
+      <p><b>Author:</b> Matti Pastell<br/>
+<b>Tags:</b>
+<a href = "/tag/python/">Python</a>, <a href = "/tag/matplotlib/">Matplotlib</a>, <a href = "/tag/scipy/">SciPy</a>
+<br/>
+May 02 2013</p>
+
+<p>
+Today I was working on surface plots and wanted to know what different colormaps in <a href="http://matplotlib.org/">Matplotlib</a> look like. Luckily it was easy to find out and I decided to post results here in case someone else finds it useful.
+</p>
+<p>
+Below you’ll find a surface plot of a multivariate normal distribution plotted with every (n=140) colormap in Matplotlib 1.2.0. The name of the colormap is the title of each plot. This page was created using <a href="http://mpastell.com/pweave">Pweave</a>.
+</p>
+<div class="highlight">
+<pre><span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+<span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">bivariate_normal</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">cmap</span> <span class="ow">in</span> <span class="n">colormaps</span><span class="p">():</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&#39;3d&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span> <span class="n">cmap</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="n">cmap</span><span class="p">)</span>
+</pre>
+</div>
+<p><img src="figures/bi_normal_figure1_1.jpg" width="460"/> <img src="figures/bi_normal_figure1_2.jpg" width="460"/> <img src="figures/bi_normal_figure1_3.jpg" width="460"/> <img src="figures/bi_normal_figure1_4.jpg" width="460"/> <img src="figures/bi_normal_figure1_5.jpg" width="460"/> <img src="figures/bi_normal_figure1_6.jpg" width="460"/> <img src="figures/bi_normal_figure1_7.jpg" width="460"/> <img src="figures/bi_normal_figure1_8.jpg" width="460"/> <img src="figures/bi_normal_figure1_9.jpg" width="460"/> <img src="figures/bi_normal_figure1_10.jpg" width="460"/> <img src="figures/bi_normal_figure1_11.jpg" width="460"/> <img src="figures/bi_normal_figure1_12.jpg" width="460"/> <img src="figures/bi_normal_figure1_13.jpg" width="460"/> <img src="figures/bi_normal_figure1_14.jpg" width="460"/> <img src="figures/bi_normal_figure1_15.jpg" width="460"/> <img src="figures/bi_normal_figure1_16.jpg" width="460"/> <img src="figures/bi_normal_figure1_17.jpg" width="460"/> <img src="figures/bi_normal_figure1_18.jpg" width="460"/> <img src="figures/bi_normal_figure1_19.jpg" width="460"/> <img src="figures/bi_normal_figure1_20.jpg" width="460"/> <img src="figures/bi_normal_figure1_21.jpg" width="460"/> <img src="figures/bi_normal_figure1_22.jpg" width="460"/> <img src="figures/bi_normal_figure1_23.jpg" width="460"/> <img src="figures/bi_normal_figure1_24.jpg" width="460"/> <img src="figures/bi_normal_figure1_25.jpg" width="460"/> <img src="figures/bi_normal_figure1_26.jpg" width="460"/> <img src="figures/bi_normal_figure1_27.jpg" width="460"/> <img src="figures/bi_normal_figure1_28.jpg" width="460"/> <img src="figures/bi_normal_figure1_29.jpg" width="460"/> <img src="figures/bi_normal_figure1_30.jpg" width="460"/> <img src="figures/bi_normal_figure1_31.jpg" width="460"/> <img src="figures/bi_normal_figure1_32.jpg" width="460"/> <img src="figures/bi_normal_figure1_33.jpg" width="460"/> <img src="figures/bi_normal_figure1_34.jpg" width="460"/> <img src="figures/bi_normal_figure1_35.jpg" width="460"/> <img src="figures/bi_normal_figure1_36.jpg" width="460"/> <img src="figures/bi_normal_figure1_37.jpg" width="460"/> <img src="figures/bi_normal_figure1_38.jpg" width="460"/> <img src="figures/bi_normal_figure1_39.jpg" width="460"/> <img src="figures/bi_normal_figure1_40.jpg" width="460"/> <img src="figures/bi_normal_figure1_41.jpg" width="460"/> <img src="figures/bi_normal_figure1_42.jpg" width="460"/> <img src="figures/bi_normal_figure1_43.jpg" width="460"/> <img src="figures/bi_normal_figure1_44.jpg" width="460"/> <img src="figures/bi_normal_figure1_45.jpg" width="460"/> <img src="figures/bi_normal_figure1_46.jpg" width="460"/> <img src="figures/bi_normal_figure1_47.jpg" width="460"/> <img src="figures/bi_normal_figure1_48.jpg" width="460"/> <img src="figures/bi_normal_figure1_49.jpg" width="460"/> <img src="figures/bi_normal_figure1_50.jpg" width="460"/> <img src="figures/bi_normal_figure1_51.jpg" width="460"/> <img src="figures/bi_normal_figure1_52.jpg" width="460"/> <img src="figures/bi_normal_figure1_53.jpg" width="460"/> <img src="figures/bi_normal_figure1_54.jpg" width="460"/> <img src="figures/bi_normal_figure1_55.jpg" width="460"/> <img src="figures/bi_normal_figure1_56.jpg" width="460"/> <img src="figures/bi_normal_figure1_57.jpg" width="460"/> <img src="figures/bi_normal_figure1_58.jpg" width="460"/> <img src="figures/bi_normal_figure1_59.jpg" width="460"/> <img src="figures/bi_normal_figure1_60.jpg" width="460"/> <img src="figures/bi_normal_figure1_61.jpg" width="460"/> <img src="figures/bi_normal_figure1_62.jpg" width="460"/> <img src="figures/bi_normal_figure1_63.jpg" width="460"/> <img src="figures/bi_normal_figure1_64.jpg" width="460"/> <img src="figures/bi_normal_figure1_65.jpg" width="460"/> <img src="figures/bi_normal_figure1_66.jpg" width="460"/> <img src="figures/bi_normal_figure1_67.jpg" width="460"/> <img src="figures/bi_normal_figure1_68.jpg" width="460"/> <img src="figures/bi_normal_figure1_69.jpg" width="460"/> <img src="figures/bi_normal_figure1_70.jpg" width="460"/> <img src="figures/bi_normal_figure1_71.jpg" width="460"/> <img src="figures/bi_normal_figure1_72.jpg" width="460"/> <img src="figures/bi_normal_figure1_73.jpg" width="460"/> <img src="figures/bi_normal_figure1_74.jpg" width="460"/> <img src="figures/bi_normal_figure1_75.jpg" width="460"/> <img src="figures/bi_normal_figure1_76.jpg" width="460"/> <img src="figures/bi_normal_figure1_77.jpg" width="460"/> <img src="figures/bi_normal_figure1_78.jpg" width="460"/> <img src="figures/bi_normal_figure1_79.jpg" width="460"/> <img src="figures/bi_normal_figure1_80.jpg" width="460"/> <img src="figures/bi_normal_figure1_81.jpg" width="460"/> <img src="figures/bi_normal_figure1_82.jpg" width="460"/> <img src="figures/bi_normal_figure1_83.jpg" width="460"/> <img src="figures/bi_normal_figure1_84.jpg" width="460"/> <img src="figures/bi_normal_figure1_85.jpg" width="460"/> <img src="figures/bi_normal_figure1_86.jpg" width="460"/> <img src="figures/bi_normal_figure1_87.jpg" width="460"/> <img src="figures/bi_normal_figure1_88.jpg" width="460"/> <img src="figures/bi_normal_figure1_89.jpg" width="460"/> <img src="figures/bi_normal_figure1_90.jpg" width="460"/> <img src="figures/bi_normal_figure1_91.jpg" width="460"/> <img src="figures/bi_normal_figure1_92.jpg" width="460"/> <img src="figures/bi_normal_figure1_93.jpg" width="460"/> <img src="figures/bi_normal_figure1_94.jpg" width="460"/> <img src="figures/bi_normal_figure1_95.jpg" width="460"/> <img src="figures/bi_normal_figure1_96.jpg" width="460"/> <img src="figures/bi_normal_figure1_97.jpg" width="460"/> <img src="figures/bi_normal_figure1_98.jpg" width="460"/> <img src="figures/bi_normal_figure1_99.jpg" width="460"/> <img src="figures/bi_normal_figure1_100.jpg" width="460"/> <img src="figures/bi_normal_figure1_101.jpg" width="460"/> <img src="figures/bi_normal_figure1_102.jpg" width="460"/> <img src="figures/bi_normal_figure1_103.jpg" width="460"/> <img src="figures/bi_normal_figure1_104.jpg" width="460"/> <img src="figures/bi_normal_figure1_105.jpg" width="460"/> <img src="figures/bi_normal_figure1_106.jpg" width="460"/> <img src="figures/bi_normal_figure1_107.jpg" width="460"/> <img src="figures/bi_normal_figure1_108.jpg" width="460"/> <img src="figures/bi_normal_figure1_109.jpg" width="460"/> <img src="figures/bi_normal_figure1_110.jpg" width="460"/> <img src="figures/bi_normal_figure1_111.jpg" width="460"/> <img src="figures/bi_normal_figure1_112.jpg" width="460"/> <img src="figures/bi_normal_figure1_113.jpg" width="460"/> <img src="figures/bi_normal_figure1_114.jpg" width="460"/> <img src="figures/bi_normal_figure1_115.jpg" width="460"/> <img src="figures/bi_normal_figure1_116.jpg" width="460"/> <img src="figures/bi_normal_figure1_117.jpg" width="460"/> <img src="figures/bi_normal_figure1_118.jpg" width="460"/> <img src="figures/bi_normal_figure1_119.jpg" width="460"/> <img src="figures/bi_normal_figure1_120.jpg" width="460"/> <img src="figures/bi_normal_figure1_121.jpg" width="460"/> <img src="figures/bi_normal_figure1_122.jpg" width="460"/> <img src="figures/bi_normal_figure1_123.jpg" width="460"/> <img src="figures/bi_normal_figure1_124.jpg" width="460"/> <img src="figures/bi_normal_figure1_125.jpg" width="460"/> <img src="figures/bi_normal_figure1_126.jpg" width="460"/> <img src="figures/bi_normal_figure1_127.jpg" width="460"/> <img src="figures/bi_normal_figure1_128.jpg" width="460"/> <img src="figures/bi_normal_figure1_129.jpg" width="460"/> <img src="figures/bi_normal_figure1_130.jpg" width="460"/> <img src="figures/bi_normal_figure1_131.jpg" width="460"/> <img src="figures/bi_normal_figure1_132.jpg" width="460"/> <img src="figures/bi_normal_figure1_133.jpg" width="460"/> <img src="figures/bi_normal_figure1_134.jpg" width="460"/> <img src="figures/bi_normal_figure1_135.jpg" width="460"/> <img src="figures/bi_normal_figure1_136.jpg" width="460"/> <img src="figures/bi_normal_figure1_137.jpg" width="460"/> <img src="figures/bi_normal_figure1_138.jpg" width="460"/> <img src="figures/bi_normal_figure1_139.jpg" width="460"/> <img src="figures/bi_normal_figure1_140.jpg" width="460"/></p>
+
+
+
+<div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'mpastell'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      <BR class = "clear"/>
+      <div id="footer">
+	<hr/>
+	&copy; Matti Pastell 2011- . Site built using <a href="http://nanoc.stoneship.org/">nanoc</a> and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a></div>
+	</div>
+
+      </div>
+    </div>
+
+  </body>
+  </html>

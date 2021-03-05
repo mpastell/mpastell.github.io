@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Matti Pastell &raquo; Create odf, pdf and html report from a single Sweave document</title>
+
+
+    <!-- Skeleton     -->
+    <link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css" media="screen"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/css/base.css" media="screen"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/mpastell.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pandoc.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/bib-publication-list.css" media="screen"/>
+
+
+    <link rel="alternate" type="application/atom+xml" title="mpastell.com Articles Feed - mpastell.com" href="/feed/" />
+    <link rel="alternate" type="application/atom+xml" title="R Articles Feed - mpastell.com" href="/tag/r/feed/" />
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="Matti Pastell" />
+    <meta name="description" content="Matti Pastell's website and blog" />
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-6474352-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+
+    <div class ="container">
+      <div class="sixteen columns">
+
+
+	  <div id="header">
+	    <h1><a href="http://mpastell.com"> MPASTELL.COM</a></h1>
+	  </div>
+
+	<div id="navbar">
+            <a href="/">About</a>
+	    <a href="/blog/">Blog</a>
+	    <a href="/publications/">Publications</a>
+	    <a href="/software/">Software</a>
+<!--	    <a href="/teaching/">Teaching</a>	-->
+	    <a href="/guides/">Guides</a>
+	    <a href="/links/">Links</a>
+	</div>
+
+
+
+<img src="/images/lehmat.jpg"
+     alt="Cow header" class="scale-with-grid"/>
+
+<div id="main">
+      <h1>Create odf, pdf and html report from a single Sweave document</h1>
+      <hr/>
+
+      <p><b>Author:</b> Matti Pastell<br/>
+<b>Tags:</b>
+<a href = "/tag/r/">R</a>, <a href = "/tag/sweave/">Sweave</a>
+<br/>
+Mar 25 2010</p>
+
+<p>A lot of us know about Sweave and Latex and they work very well in creating elegant dynamic reports from R computation. However, sometimes we would like to also produce a word processing document for a colleague or a html version of the same report. Now there are tools for producing these like <a href="http://cran.r-project.org/web/packages/odfWeave/index.html">odfWeave</a>. But wouldn’t it be nice to get all of the output formats from the source document with same mark up?</p>
+<p>Today I’m going to write about a good option how to get a <em>nice looking</em> odf, pdf and html report from the same source: ascii package with <a href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> (reST) markup. reStructuredText is a simple plain text mark up that can be converted to several formats using the Python <a href="http://docutils.sourceforge.net/index.html">Docutils</a>. It is simpler to write than Latex and it also the syntax that is used in <a href="http://sphinx.pocoo.org">Sphinx</a> documents. The <a href="http://eusebe.github.com/ascii/">ascii</a> package has a Sweave driver for weaving R code from documents written with reST and some other mark up languages as well. I have created a simple example document <a href="http://files.mpastell.com/ascii/ascii-example.Rnw">ascii-example.Rnw</a>, which demonstrates the capabilities of the combination. The source file is a Sweave document with reST mark up instead of Latex. I had to make small modifications to the in ReST driver in ascii package to get this example to work<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> (download it here: <a href="http://files.mpastell.com/ascii/newRest.R">newRest.R</a>). I then processed the example with the new driver in R:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="op">&gt;</span><span class="st"> </span><span class="kw">library</span>(ascii)
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">source</span>(<span class="st">&#39;newRest.R&#39;</span>)
+<span class="op">&gt;</span><span class="st"> </span><span class="kw">ReST</span>(<span class="st">&#39;ascii-example.Rnw&#39;</span>)</code></pre></div>
+<p>Weaving produced this <a href="http://files.mpastell.com/ascii/ascii-example.rst">ascii-example.rst</a> reST document which I then converted to odf, html, pdf with pdflatex and pdf with <a href="http://code.google.com/p/rst2pdf/">rst2pdf</a> using:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">rst2odt</span> ascii-example.rst ascii-example.odt
+<span class="ex">rst2html</span> ascii-example.rst ascii-example.html
+<span class="ex">rst2latex</span> ascii-example.rst ascii-example.tex <span class="kw">&amp;&amp;</span> <span class="ex">pdflatex</span> ascii-example.tex
+<span class="ex">rst2pdf</span> ascii-example.rst</code></pre></div>
+<p><strong>And here are the results:</strong> <a href="http://files.mpastell.com/ascii/ascii-example.odt">odt</a>, <a href="http://files.mpastell.com/ascii/ascii-example.html">html</a>, <a href="http://files.mpastell.com/ascii/ascii-example1.pdf">pdf</a> from latex and <a href="http://files.mpastell.com/ascii/ascii-example.pdf">pdf</a> from rst2pdf. You’ll need to have <a href="http://docutils.sourceforge.net/index.html">Docutils</a> and <a href="http://www.rexx.com/~dkuhlman/odtwriter.html">odtwriter</a> for the conversion.</p>
+<p>I have used the default options, but there are a lot options that can be passed to the docutils writers to customize the output, such as custom stylesheets. The image format in the pdfs is not optimal, but in can be changed with the “res” option in code chunk or you can also choose to use pdf format instead of jpg, but then it won’t show up in html documents. I think using reST with ascii package is a good option for producing reports and tutorials in multiple output formats. That is also because I’m already familiar with reST directives and also use Sphinx for other purposes too. The reST syntax is also very fast to learn and I think it is definitely worth exploring. I also recommend using Sphinx if you only want to get html and pdf output, because it has more directives than plain reST e.g. math support.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>I changed the driver to output code chunks in reST literal environment <code>::</code> instead of <code>.. codeblock:: r</code>, because the codeblock directive is not supported in odt conversion and very poorly supported in latex conversion.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'mpastell'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+      <BR class = "clear"/>
+      <div id="footer">
+	<hr/>
+	&copy; Matti Pastell 2011- . Site built using <a href="http://nanoc.stoneship.org/">nanoc</a> and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a></div>
+	</div>
+
+      </div>
+    </div>
+
+  </body>
+  </html>
